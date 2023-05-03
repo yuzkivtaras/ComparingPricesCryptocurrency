@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CryptoExchange.Net.CommonObjects;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using WatchListsCryptoMarkets.Services;
 
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -16,52 +17,30 @@ using Newtonsoft.Json.Linq;
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-var clientBinance = new HttpClient();
-var responseBinance = await clientBinance.GetAsync("https://api.binance.com/api/v3/ticker/price");
 
-if (!responseBinance.IsSuccessStatusCode)
+namespace WatchListsCryptoMarkets
 {
-    Console.WriteLine($"Failed to get ticker info from Binance API: {responseBinance.ReasonPhrase}");
-    return;
+    public class Program
+    {
+        public static async Task Main()
+        {
+            var binanceApiService = new BinanceApiService(new HttpClient());
+            var byBitApiService = new ByBitApiService(new HttpClient());
+
+            var tickerComparer = new TickerComparer(binanceApiService, byBitApiService);
+            var results = await tickerComparer.GetCommonSymbolsAsync();
+
+            foreach (var result in results)
+            {
+                Console.WriteLine($"{result.symbol}: Binance: {result.binancePrice} - ByBit: {result.byBitPrice} = {result.priceDiff}");
+            }
+        }
+    }
 }
 
-var jsonBinance = await responseBinance.Content.ReadAsStringAsync();
-var tickerInfoBinance = JArray.Parse(jsonBinance);
 
-var clientByBit = new HttpClient();
-var responseByBit = await clientByBit.GetAsync("https://api.bybit.com/v2/public/tickers");
 
-if (!responseByBit.IsSuccessStatusCode)
-{
-    Console.WriteLine($"Failed to get tickers from ByBit API: {responseByBit.ReasonPhrase}");
-    return;
-}
 
-var jsonByBit = await responseByBit.Content.ReadAsStringAsync();
-var tickerInfoByBitObj = JObject.Parse(jsonByBit);
-var tickerInfoByBit = tickerInfoByBitObj["result"].ToObject<JArray>();
-
-var commonSymbols = tickerInfoBinance.Select(t => t["symbol"].ToString())
-                        .Intersect(tickerInfoByBit.Select(t => t["symbol"].ToString()));
-
-var results = new List<(string symbol, decimal binancePrice, decimal byBitPrice, decimal priceDiff)>();
-
-Console.WriteLine("------------Спільні торгові пари:------------");
-
-foreach (var symbol in commonSymbols)
-{
-    var binancePrice = tickerInfoBinance.FirstOrDefault(t => t["symbol"].ToString() == symbol)["price"].ToObject<decimal>();
-    var byBitPrice = tickerInfoByBit.FirstOrDefault(t => t["symbol"].ToString() == symbol)["last_price"].ToObject<decimal>();
-
-    var priceDiff = binancePrice - byBitPrice;
-
-    results.Add((symbol, binancePrice, byBitPrice, priceDiff));
-}
-
-foreach (var result in results.OrderByDescending(r => r.priceDiff))
-{
-    Console.WriteLine($"{result.symbol}: Binance: {result.binancePrice:F4} - ByBit: {result.byBitPrice:F4} = {result.priceDiff:F4}");
-}
 
 
 
