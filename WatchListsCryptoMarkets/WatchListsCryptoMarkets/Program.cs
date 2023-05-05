@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using CryptoExchange.Net.CommonObjects;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using WatchListsCryptoMarkets.IServices;
-using WatchListsCryptoMarkets.Services;
+﻿using WatchListsCryptoMarkets.Services;
 
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -59,8 +51,8 @@ namespace WatchListsCryptoMarkets
 
                 if (i + batchSize < topTradingPairs.Count)
                 {
-                    Console.WriteLine("Waiting for 2 seconds before next batch...");
-                    await Task.Delay(TimeSpan.FromSeconds(2));
+                    Console.WriteLine("Waiting for 1 seconds before next batch...");
+                    await Task.Delay(TimeSpan.FromSeconds(1));
                 }
             }
         }
