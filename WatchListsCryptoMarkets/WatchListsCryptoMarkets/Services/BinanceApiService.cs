@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WatchListsCryptoMarkets.Client;
+using WatchListsCryptoMarkets.IServices;
 
 namespace WatchListsCryptoMarkets.Services
 {

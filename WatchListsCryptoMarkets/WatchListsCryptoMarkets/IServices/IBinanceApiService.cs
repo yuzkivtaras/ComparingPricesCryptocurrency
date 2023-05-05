@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WatchListsCryptoMarkets.Services
+namespace WatchListsCryptoMarkets.IServices
 {
     public interface IBinanceApiService
     {

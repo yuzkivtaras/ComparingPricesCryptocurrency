@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CryptoExchange.Net.CommonObjects;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using WatchListsCryptoMarkets.IServices;
 using WatchListsCryptoMarkets.Services;
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -33,6 +34,34 @@ namespace WatchListsCryptoMarkets
             foreach (var result in results)
             {
                 Console.WriteLine($"{result.symbol}: Binance: {result.binancePrice} - ByBit: {result.byBitPrice} = {result.priceDiff}");
+            }
+
+            var gateioApiService = new GateioApiService(new HttpClient());
+
+            var tradingPairs = await gateioApiService.GetTickerInfoAsync();
+            var topTradingPairs = tradingPairs.Select(p => (string)p["id"]).ToList();
+
+            Console.WriteLine("------------------GateIo------------------");
+
+            int batchSize = 70;
+            for (int i = 0; i < topTradingPairs.Count; i += batchSize)
+            {
+                var batch = topTradingPairs.Skip(i).Take(batchSize).ToList();
+                var tickerPrices = await gateioApiService.GetTickerPricesAsync(batch);
+
+                foreach (var ticker in tickerPrices)
+                {
+                    var tradingPair = (string)ticker[0]["currency_pair"];
+                    var lastPrice = (decimal)ticker[0]["last"];
+
+                    Console.WriteLine($"Trading pair: {tradingPair}, last price: {lastPrice}");
+                }
+
+                if (i + batchSize < topTradingPairs.Count)
+                {
+                    Console.WriteLine("Waiting for 2 seconds before next batch...");
+                    await Task.Delay(TimeSpan.FromSeconds(2));
+                }
             }
         }
     }

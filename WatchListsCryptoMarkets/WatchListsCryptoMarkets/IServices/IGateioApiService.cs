@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WatchListsCryptoMarkets.Services
+namespace WatchListsCryptoMarkets.IServices
 {
-    public interface IByBitApiService
+    public interface IGateioApiService
     {
         Task<JArray> GetTickerInfoAsync();
     }
