@@ -58,26 +58,25 @@ namespace WatchListsCryptoMarkets
             var symbolPairs = tickersBinance.Where(ticker => tickersGateIo.Contains(ReplaceBinanceTickerToGateIo(ticker)))
                                             .Select(ticker => (ticker, ReplaceBinanceTickerToGateIo(ticker)));
 
-            var semaphore = new SemaphoreSlim(9);
+            int deley = 0;
 
             foreach (var symbolPair in symbolPairs)
             {
-                await semaphore.WaitAsync();
-                try
+                var priceBinance = await binancePriceApiService.GetPriceAsync(symbolPair.Item1);
+                var priceGateIo = await gateioPriceApiService.GetPriceAsync(symbolPair.Item2);
+
+                var priceDifference = Math.Abs(priceBinance - priceGateIo);
+                var priceDifferencePercent = priceDifference / priceBinance * 100;
+
+                Console.WriteLine($"{symbolPair.Item1} Binance: {priceBinance}, Gate.Io: {priceGateIo}, Persent: {priceDifferencePercent}, Difference: {priceDifference}");    
+
+                deley++;
+
+                if (deley % 5 == 0)
                 {
-                    var priceBinance = await binancePriceApiService.GetPriceAsync(symbolPair.Item1);
-                    var priceGateIo = await gateioPriceApiService.GetPriceAsync(symbolPair.Item2);
-
-                    var priceDifference = Math.Abs(priceBinance - priceGateIo);
-                    var priceDifferencePercent = priceDifference / priceBinance * 100;
-
-                    Console.WriteLine($"{symbolPair.Item1} Binance: {priceBinance}, Gate.Io: {priceGateIo}, Persent: {priceDifferencePercent}, Difference: {priceDifference}");
+                    Thread.Sleep(1000);
                 }
-                finally
-                {
-                    semaphore.Release();
-                    await Task.Delay(1000);
-                }                
+                
             }
 
             string ReplaceBinanceTickerToGateIo(string binanceTicker)
