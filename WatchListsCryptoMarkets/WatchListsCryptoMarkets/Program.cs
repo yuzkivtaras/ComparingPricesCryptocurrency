@@ -1,4 +1,8 @@
-﻿using WatchListsCryptoMarkets.Services;
+﻿using Binance.Net.Objects.Models.Spot;
+using System.Diagnostics;
+using WatchListsCryptoMarkets.Services;
+using WatchListsCryptoMarkets.Services.PriceApiService;
+using WatchListsCryptoMarkets.Services.TickerApiService;
 
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -17,43 +21,72 @@ namespace WatchListsCryptoMarkets
     {
         public static async Task Main()
         {
-            var binanceApiService = new BinanceApiService(new HttpClient());
-            var byBitApiService = new ByBitApiService(new HttpClient());
+            //Binance API
+            //var binanceTickerApiService = new BinanceTickerApiService(new HttpClient());
+            //var binancePriceApiService = new BinancePriceApiService(new HttpClient());
 
-            var tickerComparer = new TickerComparer(binanceApiService, byBitApiService);
-            var results = await tickerComparer.GetCommonSymbolsAsync();
+            //var tickersBinance = await binanceTickerApiService.GetTickersAsync();
+            //foreach (var ticker in tickersBinance)
+            //{
+            //    var symbol = ticker.ToString();
+            //    var priceBinance = await binancePriceApiService.GetPriceAsync(symbol);
+            //    Console.WriteLine($"Binance - Symbol: {symbol}, Price: {priceBinance}");
+            //}
 
-            foreach (var result in results)
+            //GateIo API
+            //var gateioTickerApiService = new GateIoTickerApiService(new HttpClient());
+            //var gateioPriceApiService = new GateIoPriceApiService(new HttpClient());
+
+            //var tickersGateIo = await gateioTickerApiService.GetTickersAsync();
+            //foreach (var ticker in tickersGateIo)
+            //{
+            //    var symbol = ticker.ToString();
+            //    var priceGateIo = await gateioPriceApiService.GetPriceAsync(symbol);
+            //    Console.WriteLine($"GateIo - Symbol: {symbol}, Price: {priceGateIo}");
+            //}
+
+            //ComparePricesAsync
+            var binanceTickerApiService = new BinanceTickerApiService(new HttpClient());
+            var binancePriceApiService = new BinancePriceApiService(new HttpClient());
+
+            var gateioTickerApiService = new GateIoTickerApiService(new HttpClient());
+            var gateioPriceApiService = new GateIoPriceApiService(new HttpClient());
+
+            var tickersBinance = await binanceTickerApiService.GetTickersAsync();
+            var tickersGateIo = await gateioTickerApiService.GetTickersAsync();
+
+            var symbolPairs = tickersBinance.Where(ticker => tickersGateIo.Contains(ReplaceBinanceTickerToGateIo(ticker)))
+                                            .Select(ticker => (ticker, ReplaceBinanceTickerToGateIo(ticker)));
+
+            var semaphore = new SemaphoreSlim(9);
+
+            foreach (var symbolPair in symbolPairs)
             {
-                Console.WriteLine($"{result.symbol}: Binance: {result.binancePrice} - ByBit: {result.byBitPrice} = {result.priceDiff}");
+                await semaphore.WaitAsync();
+                try
+                {
+                    var priceBinance = await binancePriceApiService.GetPriceAsync(symbolPair.Item1);
+                    var priceGateIo = await gateioPriceApiService.GetPriceAsync(symbolPair.Item2);
+
+                    var priceDifference = Math.Abs(priceBinance - priceGateIo);
+                    var priceDifferencePercent = priceDifference / priceBinance * 100;
+
+                    Console.WriteLine($"{symbolPair.Item1} Binance: {priceBinance}, Gate.Io: {priceGateIo}, Persent: {priceDifferencePercent}, Difference: {priceDifference}");
+                }
+                finally
+                {
+                    semaphore.Release();
+                    await Task.Delay(1000);
+                }                
             }
 
-            var gateioApiService = new GateioApiService(new HttpClient());
-
-            var tradingPairs = await gateioApiService.GetTickerInfoAsync();
-            var topTradingPairs = tradingPairs.Select(p => (string)p["id"]).ToList();
-
-            Console.WriteLine("------------------GateIo------------------");
-
-            int batchSize = 70;
-            for (int i = 0; i < topTradingPairs.Count; i += batchSize)
+            string ReplaceBinanceTickerToGateIo(string binanceTicker)
             {
-                var batch = topTradingPairs.Skip(i).Take(batchSize).ToList();
-                var tickerPrices = await gateioApiService.GetTickerPricesAsync(batch);
-
-                foreach (var ticker in tickerPrices)
-                {
-                    var tradingPair = (string)ticker[0]["currency_pair"];
-                    var lastPrice = (decimal)ticker[0]["last"];
-
-                    Console.WriteLine($"Trading pair: {tradingPair}, last price: {lastPrice}");
-                }
-
-                if (i + batchSize < topTradingPairs.Count)
-                {
-                    Console.WriteLine("Waiting for 1 seconds before next batch...");
-                    await Task.Delay(TimeSpan.FromSeconds(1));
-                }
+                return binanceTicker.Replace("USDT", "_USDT")
+                    .Replace("ETH", "_ETH")
+                    .Replace("TRY", "_TRY")
+                    .Replace("USD", "_USD")
+                    .Replace("BTC", "_BTC");
             }
         }
     }
