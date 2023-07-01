@@ -32,12 +32,29 @@ namespace WatchListsCryptoMarkets.Services.TickerApiService
         {
             var tickerInfo = await GetTickerInfoAsync();
 
-            var tickers = from ticker in tickerInfo
-                              //select ((string)ticker["id"]).Replace("_", "");
-                          select (string)ticker["id"];
+            var ignoredTickers = LoadIgnoredTickersFromFile();
 
+            var tickers = from ticker in tickerInfo
+                          select (string)ticker["id"]
+                          into symbol
+                          where !ignoredTickers.Contains(symbol)
+                          select symbol;
 
             return tickers;
+        }
+
+        private IEnumerable<string> LoadIgnoredTickersFromFile()
+        {
+            var ignoredTickersFile = "D://Repositories/ComparingPricesCryptocurrency/WatchListsCryptoMarkets/WatchListsCryptoMarkets/IgnoreTickers/GateIoIgnoreTickers.json";
+
+            if (File.Exists(ignoredTickersFile))
+            {
+                var json = File.ReadAllText(ignoredTickersFile);
+                var ignoredTickers = JArray.Parse(json).ToObject<List<string>>();
+                return ignoredTickers;
+            }
+
+            return Enumerable.Empty<string>();
         }
     }
 }
