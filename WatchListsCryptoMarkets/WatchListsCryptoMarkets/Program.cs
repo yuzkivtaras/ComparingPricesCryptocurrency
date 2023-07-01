@@ -10,8 +10,8 @@ namespace WatchListsCryptoMarkets
         public static async Task Main()
         {
             //Binance API
-            //var binanceTickerApiService = new BinanceTickerApiService(new HttpClient());
-            //var binancePriceApiService = new BinancePriceApiService(new HttpClient());
+            var binanceTickerApiService = new BinanceTickerApiService(new HttpClient());
+            var binancePriceApiService = new BinancePriceApiService(new HttpClient());
 
             //var tickersBinance = await binanceTickerApiService.GetTickersAsync();
             //foreach (var ticker in tickersBinance)
@@ -22,8 +22,8 @@ namespace WatchListsCryptoMarkets
             //}
 
             //GateIo API
-            //var gateioTickerApiService = new GateIoTickerApiService(new HttpClient());
-            //var gateioPriceApiService = new GateIoPriceApiService(new HttpClient());
+            var gateIoTickerApiService = new GateIoTickerApiService(new HttpClient());
+            var gateIoPriceApiService = new GateIoPriceApiService(new HttpClient());
 
             //var tickersGateIo = await gateioTickerApiService.GetTickersAsync();
             //foreach (var ticker in tickersGateIo)
@@ -34,18 +34,9 @@ namespace WatchListsCryptoMarkets
             //}
 
             //ComparePricesAsync
-            var binanceTickerApiService = new BinanceTickerApiService(new HttpClient());
-            var binancePriceApiService = new BinancePriceApiService(new HttpClient());
 
-            var gateIoTickerApiService = new GateIoTickerApiService(new HttpClient());
-            var gateIoPriceApiService = new GateIoPriceApiService(new HttpClient());
-
-            //var binanceTicker = binanceTickerApiService.GetTickersAsync();
-            //var gateIoTicker = gateioTickerApiService.GetTickersAsync();
-
-
-            var comparer = new BinanceAndGateIoComparerPrice(binanceTickerApiService, binancePriceApiService, gateIoTickerApiService, gateIoPriceApiService);
-            await comparer.ComparerPrice();
+            var comparerBinanceAndGateIo = new BinanceAndGateIoComparerPrice(binanceTickerApiService, binancePriceApiService, gateIoTickerApiService, gateIoPriceApiService);
+            await comparerBinanceAndGateIo.ComparerPrice();
         }
     }
 }

@@ -1,9 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WatchListsCryptoMarkets.Client;
 using WatchListsCryptoMarkets.IClient;
 using WatchListsCryptoMarkets.IServices;
@@ -13,6 +8,7 @@ namespace WatchListsCryptoMarkets.Services.TickerApiService
     public class BinanceTickerApiService : ITickerApiService
     {
         private readonly IHttpClientWrapper _httpClient;
+
         public BinanceTickerApiService(HttpClient httpClient)
         {
             _httpClient = new HttpClientWrapper(httpClient);
@@ -37,10 +33,29 @@ namespace WatchListsCryptoMarkets.Services.TickerApiService
         {
             var tickerInfo = await GetTickerInfoAsync();
 
+            var ignoredTickers = LoadIgnoredTickersFromFile();
+
             var tickers = from ticker in tickerInfo
-                          select (string)ticker["symbol"];
+                          select (string)ticker["symbol"]
+                          into symbol
+                          where !ignoredTickers.Contains(symbol)
+                          select symbol;
 
             return tickers;
+        }
+
+        private IEnumerable<string> LoadIgnoredTickersFromFile()
+        {
+             var ignoredTickersFile = "D://Repositories/ComparingPricesCryptocurrency/WatchListsCryptoMarkets/WatchListsCryptoMarkets/IgnoreTickers/BinanceIgnoreTickers.json";
+
+            if (File.Exists(ignoredTickersFile))
+            {
+                var json = File.ReadAllText(ignoredTickersFile);
+                var ignoredTickers = JArray.Parse(json).ToObject<List<string>>();
+                return ignoredTickers;
+            }
+
+            return Enumerable.Empty<string>();
         }
     }
 }

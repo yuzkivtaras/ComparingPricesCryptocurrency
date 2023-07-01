@@ -37,24 +37,29 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                var priceBinance = await _binancePriceApiService.GetPriceAsync(symbolPair.BinanceTicker);
-                var priceKucoin = await _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);
+                var priceBinanceTask = _binancePriceApiService.GetPriceAsync(symbolPair.BinanceTicker);
+                var priceGateIoTask = _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);
 
-                symbolPair.PercentDifference = CalculatePriceDifferencePercent(priceBinance, priceKucoin);                          
+                await Task.WhenAll(priceBinanceTask, priceGateIoTask);
+
+                var priceBinance = priceBinanceTask.Result;
+                var priceGateIo = priceGateIoTask.Result;
+
+                symbolPair.PercentDifference = CalculatePriceDifferencePercent(priceBinance, priceGateIo);
             }
 
             symbolPairs = symbolPairs.OrderByDescending(pair => pair.PercentDifference).ToList();
 
             foreach (var symbolPair in symbolPairs)
             {
-                var priceBinance = await _binancePriceApiService.GetPriceAsync(symbolPair.BinanceTicker);
-                var priceGateIo = await _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);
-
-                if (symbolPair.PercentDifference >= 0.1)
+                if (symbolPair.PercentDifference >= 0.4)
                 {
+                    var priceBinance = await _binancePriceApiService.GetPriceAsync(symbolPair.BinanceTicker);
+                    var priceGateIo = await _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);
+
                     Console.WriteLine($"{symbolPair.BinanceTicker}, Difference: {symbolPair.PercentDifference}, Binance: {priceBinance}, GateIo: {priceGateIo}");
                 }
-            }           
+            }
         }
 
         private string ReplaceBinanceTickerToGateIo(string binanceTicker)
