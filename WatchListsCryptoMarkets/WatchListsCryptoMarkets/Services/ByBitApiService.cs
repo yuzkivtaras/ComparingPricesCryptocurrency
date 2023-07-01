@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using WatchListsCryptoMarkets.Client;
+using WatchListsCryptoMarkets.IClient;
 using WatchListsCryptoMarkets.IServices;
 
 namespace WatchListsCryptoMarkets.Services

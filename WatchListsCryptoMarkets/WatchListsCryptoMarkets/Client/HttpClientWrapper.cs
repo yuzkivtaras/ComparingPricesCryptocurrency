@@ -1,4 +1,4 @@
-﻿
+﻿using WatchListsCryptoMarkets.IClient;
 
 namespace WatchListsCryptoMarkets.Client
 {

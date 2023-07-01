@@ -1,6 +1,5 @@
 ﻿
-
-namespace WatchListsCryptoMarkets.Client
+namespace WatchListsCryptoMarkets.IClient
 {
     public interface IHttpClientWrapper
     {
