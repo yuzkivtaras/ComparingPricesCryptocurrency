@@ -23,7 +23,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         public async Task ComparerPrice()
         {
-            string[] tickersDiscribe = new string[] { "MLN_USDT", "IOTA_USDT" };
+            string[] tickersDiscribe = new string[] { "MLN_USDT", "IOTA_USDT", "IOTA_BTC" };
 
             var tickersBinance = await _binaceTickerApiService.GetTickersAsync();
             var tickersGateIo = await _gateIoTickerApiService.GetTickersAsync();
@@ -54,7 +54,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                if (symbolPair.PercentDifference >= 1)
+                if (symbolPair.PercentDifference >= 0.8)
                 {
                     var priceBinance = await _binancePriceApiService.GetPriceAsync(symbolPair.BinanceTicker);
                     var priceGateIo = await _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);
@@ -78,12 +78,12 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         private string ReplaceBinanceTickerToGateIo(string binanceTicker)
         {
-            return binanceTicker.Replace("USDT", "_USDT")
-                .Replace("USD", "_USD")
-                .Replace("ETH", "_ETH")
-                .Replace("TRY", "_TRY")
+            return binanceTicker/*.Replace("USD", "_USD")*/
+                //.Replace("ETH", "_ETH")
+                //.Replace("TRY", "_TRY")
                 .Replace("BTC", "_BTC")
-                .Replace("BNB", "_BNB");
+                .Replace("BNB", "_BNB")
+                .Replace("USDT", "_USDT");
         }
 
         private double CalculatePriceDifferencePercent(decimal priceBinance, decimal priceGateIo)
