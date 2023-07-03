@@ -11,8 +11,8 @@ namespace WatchListsCryptoMarkets
         public static async Task Main()
         {
             //Binance API
-            //var binanceTickerApiService = new BinanceTickerApiService(new HttpClient());
-            //var binancePriceApiService = new BinancePriceApiService(new HttpClient());
+            var binanceTickerApiService = new BinanceTickerApiService(new HttpClient());
+            var binancePriceApiService = new BinancePriceApiService(new HttpClient());
 
             //var tickersBinance = await binanceTickerApiService.GetTickersAsync();
             //foreach (var ticker in tickersBinance)
@@ -38,18 +38,23 @@ namespace WatchListsCryptoMarkets
             var byBitTickerApiService = new ByBitTickerApiService(new HttpClient());
             var byBitPriceApiService = new ByBitPriceApiService(new HttpClient());
 
-            var tickeersByBit = await byBitTickerApiService.GetTickersAsync();
-            foreach (var ticker in tickeersByBit)
-            {
-                var symbol = ticker.ToString();
-                var priceByBit = await byBitPriceApiService.GetPriceAsync(symbol);
-                Console.WriteLine($"ByBit - Symbol: {symbol}, Price: {priceByBit}");
-            }
+            //var tickeersByBit = await byBitTickerApiService.GetTickersAsync();
+            //foreach (var ticker in tickeersByBit)
+            //{
+            //    var symbol = ticker.ToString();
+            //    var priceByBit = await byBitPriceApiService.GetPriceAsync(symbol);
+            //    Console.WriteLine($"ByBit - Symbol: {symbol}, Price: {priceByBit}");
+            //}
 
             //ComparePricesAsync
 
+            //BinanceAndGateIo
             //var comparerBinanceAndGateIo = new BinanceAndGateIoComparerPrice(binanceTickerApiService, binancePriceApiService, gateIoTickerApiService, gateIoPriceApiService);
             //await comparerBinanceAndGateIo.ComparerPrice();
+
+            //BiNanceAndByBit
+            var comparerBinanceAndByBit = new BinanceAndByBitComparerPrice(binanceTickerApiService, binancePriceApiService, byBitTickerApiService, byBitPriceApiService);
+            await comparerBinanceAndByBit.ComparerPrice();
         }
     }
 }
