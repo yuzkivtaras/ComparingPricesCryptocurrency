@@ -9,23 +9,35 @@ namespace WatchListsCryptoMarkets.Services.PriceApiService
     {
         private const string ApiBaseUrl = "https://api.binance.com/api/v3";
         private readonly IHttpClientWrapper _httpClient;
+        private readonly SemaphoreSlim _rateLimiter;
+
         public BinancePriceApiService(HttpClient httpClient)
         {
             _httpClient = new HttpClientWrapper(httpClient);
+            _rateLimiter = new SemaphoreSlim(4);
         }
 
         public async Task<decimal> GetPriceAsync(string symbol)
         {
-            var endpoint = $"/ticker/price?symbol={symbol}";
+            await _rateLimiter.WaitAsync();
 
-            var response = await _httpClient.GetAsync($"{ApiBaseUrl}{endpoint}");
+            try
+            {
+                var endpoint = $"/ticker/price?symbol={symbol}";
 
-            response.EnsureSuccessStatusCode();
+                var response = await _httpClient.GetAsync($"{ApiBaseUrl}{endpoint}");
 
-            var content = await response.Content.ReadAsStringAsync();
-            var jObject = JObject.Parse(content);
+                response.EnsureSuccessStatusCode();
 
-            return (decimal)jObject["price"];
+                var content = await response.Content.ReadAsStringAsync();
+                var jObject = JObject.Parse(content);
+
+                return (decimal)jObject["price"];
+            }
+            finally
+            {
+                _rateLimiter.Release();
+            }
         }
     }
 }

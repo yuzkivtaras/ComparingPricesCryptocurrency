@@ -37,7 +37,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
                 })
                 .ToList();
 
-            foreach (var symbolPair in symbolPairs)
+            var tasks = symbolPairs.Select(async (symbolPair) =>
             {
                 var priceBinanceTask = _binancePriceApiService.GetPriceAsync(symbolPair.BinanceTicker);
                 var priceGateIoTask = _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);
@@ -48,7 +48,9 @@ namespace WatchListsCryptoMarkets.ComparerPrice
                 var priceGateIo = priceGateIoTask.Result;
 
                 symbolPair.PercentDifference = CalculatePriceDifferencePercent(priceBinance, priceGateIo);
-            }
+            });
+
+            await Task.WhenAll(tasks);
 
             symbolPairs = symbolPairs.OrderByDescending(pair => pair.PercentDifference).ToList();
 
@@ -65,6 +67,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
                 }
             }
         }
+
 
         private string GetAdditionalText(string gateIoTicker, string[] tickersDiscribe)
         {

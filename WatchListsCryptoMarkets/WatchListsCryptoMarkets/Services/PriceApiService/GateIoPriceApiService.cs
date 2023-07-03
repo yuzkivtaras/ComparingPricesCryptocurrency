@@ -9,25 +9,37 @@ namespace WatchListsCryptoMarkets.Services.PriceApiService
     {
         private const string ApiBaseUrl = "https://api.gateio.ws/api/v4";
         private readonly IHttpClientWrapper _httpClient;
+        private readonly SemaphoreSlim _rateLimiter;
+
         public GateIoPriceApiService(HttpClient httpClient)
         {
             _httpClient = new HttpClientWrapper(httpClient);
+            _rateLimiter = new SemaphoreSlim(4);
         }
 
         public async Task<decimal> GetPriceAsync(string symbol)
         {
-            var endpoint = $"/spot/tickers?currency_pair={symbol}";
+            await _rateLimiter.WaitAsync();
 
-            var response = await _httpClient.GetAsync($"{ApiBaseUrl}{endpoint}");
+            try
+            {
+                var endpoint = $"/spot/tickers?currency_pair={symbol}";
 
-            response.EnsureSuccessStatusCode();
+                var response = await _httpClient.GetAsync($"{ApiBaseUrl}{endpoint}");
 
-            var content = await response.Content.ReadAsStringAsync();
-            var jArray = JArray.Parse(content);
+                response.EnsureSuccessStatusCode();
 
-            var firstTicker = jArray.First();
+                var content = await response.Content.ReadAsStringAsync();
+                var jArray = JArray.Parse(content);
 
-            return (decimal)firstTicker["last"];
+                var firstTicker = jArray.First();
+
+                return (decimal)firstTicker["last"];
+            }
+            finally
+            {
+                _rateLimiter.Release();
+            }
         }
     }
 }
