@@ -23,7 +23,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         public async Task ComparerPrice()
         {
-            string[] tickersDiscribe = new string[] { "MLN_USDT", "IOTA_USDT", "IOTA_BTC", "TRB_USDT" };
+            string[] tickersDiscribe = new string[] { "MLN_USDT", "IOTA_USDT", "IOTA_BTC", "TRB_USDT", "WNXM_USDT" };
 
             var tickersBinance = await _binaceTickerApiService.GetTickersAsync();
             var tickersGateIo = await _gateIoTickerApiService.GetTickersAsync();

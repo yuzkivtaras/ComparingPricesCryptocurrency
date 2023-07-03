@@ -14,7 +14,7 @@ namespace WatchListsCryptoMarkets.Services.PriceApiService
         public BinancePriceApiService(HttpClient httpClient)
         {
             _httpClient = new HttpClientWrapper(httpClient);
-            _rateLimiter = new SemaphoreSlim(4);
+            _rateLimiter = new SemaphoreSlim(19);
         }
 
         public async Task<decimal> GetPriceAsync(string symbol)

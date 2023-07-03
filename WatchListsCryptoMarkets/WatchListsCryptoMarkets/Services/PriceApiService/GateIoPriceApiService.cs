@@ -14,7 +14,7 @@ namespace WatchListsCryptoMarkets.Services.PriceApiService
         public GateIoPriceApiService(HttpClient httpClient)
         {
             _httpClient = new HttpClientWrapper(httpClient);
-            _rateLimiter = new SemaphoreSlim(4);
+            _rateLimiter = new SemaphoreSlim(16);
         }
 
         public async Task<decimal> GetPriceAsync(string symbol)
