@@ -1,4 +1,5 @@
-﻿using WatchListsCryptoMarkets.ComparerPrice;
+﻿using CryptoExchange.Net.CommonObjects;
+using WatchListsCryptoMarkets.ComparerPrice;
 using WatchListsCryptoMarkets.Services.PriceApiService;
 using WatchListsCryptoMarkets.Services.TickerApiService;
 
@@ -10,8 +11,8 @@ namespace WatchListsCryptoMarkets
         public static async Task Main()
         {
             //Binance API
-            var binanceTickerApiService = new BinanceTickerApiService(new HttpClient());
-            var binancePriceApiService = new BinancePriceApiService(new HttpClient());
+            //var binanceTickerApiService = new BinanceTickerApiService(new HttpClient());
+            //var binancePriceApiService = new BinancePriceApiService(new HttpClient());
 
             //var tickersBinance = await binanceTickerApiService.GetTickersAsync();
             //foreach (var ticker in tickersBinance)
@@ -22,8 +23,8 @@ namespace WatchListsCryptoMarkets
             //}
 
             //GateIo API
-            var gateIoTickerApiService = new GateIoTickerApiService(new HttpClient());
-            var gateIoPriceApiService = new GateIoPriceApiService(new HttpClient());
+            //var gateIoTickerApiService = new GateIoTickerApiService(new HttpClient());
+            //var gateIoPriceApiService = new GateIoPriceApiService(new HttpClient());
 
             //var tickersGateIo = await gateioTickerApiService.GetTickersAsync();
             //foreach (var ticker in tickersGateIo)
@@ -33,10 +34,22 @@ namespace WatchListsCryptoMarkets
             //    Console.WriteLine($"GateIo - Symbol: {symbol}, Price: {priceGateIo}");
             //}
 
+            //ByBit API
+            var byBitTickerApiService = new ByBitTickerApiService(new HttpClient());
+            var byBitPriceApiService = new ByBitPriceApiService(new HttpClient());
+
+            var tickeersByBit = await byBitTickerApiService.GetTickersAsync();
+            foreach (var ticker in tickeersByBit)
+            {
+                var symbol = ticker.ToString();
+                var priceByBit = await byBitPriceApiService.GetPriceAsync(symbol);
+                Console.WriteLine($"ByBit - Symbol: {symbol}, Price: {priceByBit}");
+            }
+
             //ComparePricesAsync
 
-            var comparerBinanceAndGateIo = new BinanceAndGateIoComparerPrice(binanceTickerApiService, binancePriceApiService, gateIoTickerApiService, gateIoPriceApiService);
-            await comparerBinanceAndGateIo.ComparerPrice();
+            //var comparerBinanceAndGateIo = new BinanceAndGateIoComparerPrice(binanceTickerApiService, binancePriceApiService, gateIoTickerApiService, gateIoPriceApiService);
+            //await comparerBinanceAndGateIo.ComparerPrice();
         }
     }
 }
