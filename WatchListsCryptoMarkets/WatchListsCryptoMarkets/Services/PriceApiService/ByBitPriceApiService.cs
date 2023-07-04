@@ -14,7 +14,7 @@ namespace WatchListsCryptoMarkets.Services.PriceApiService
         public ByBitPriceApiService(HttpClient httpClient)
         {
             _httpClient = new HttpClientWrapper(httpClient);
-            _rateLimiter = new SemaphoreSlim(19);
+            _rateLimiter = new SemaphoreSlim(10);
         }
 
 

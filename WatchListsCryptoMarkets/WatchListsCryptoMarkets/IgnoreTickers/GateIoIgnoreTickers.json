@@ -2,5 +2,11 @@
   "GTC_USDT",
   "BIFI_USDT",
   "QI_USDT",
-  "GTC_BTC"
+  "GTC_BTC",
+  "TIME_USDT",
+  "FAME_USDT",
+  "ORT_USDT",
+  "AXL_USDT",
+  "REAL_USDT",
+  "TRX_USDC"
 ]

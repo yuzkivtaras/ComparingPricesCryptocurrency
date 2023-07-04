@@ -23,8 +23,8 @@ namespace WatchListsCryptoMarkets
             //}
 
             //GateIo API
-            //var gateIoTickerApiService = new GateIoTickerApiService(new HttpClient());
-            //var gateIoPriceApiService = new GateIoPriceApiService(new HttpClient());
+            var gateIoTickerApiService = new GateIoTickerApiService(new HttpClient());
+            var gateIoPriceApiService = new GateIoPriceApiService(new HttpClient());
 
             //var tickersGateIo = await gateioTickerApiService.GetTickersAsync();
             //foreach (var ticker in tickersGateIo)
@@ -46,15 +46,32 @@ namespace WatchListsCryptoMarkets
             //    Console.WriteLine($"ByBit - Symbol: {symbol}, Price: {priceByBit}");
             //}
 
+            //Kucoin API
+            //var kucoinTickerApiService = new KucoinTickerApiService(new HttpClient());
+
+            //var tickersKucoin = await kucoinTickerApiService.GetTickersAsync();
+            //foreach (var ticker in tickersKucoin)
+            //{
+            //    var symbol = ticker.ToString();
+            //    Console.WriteLine(symbol);
+            //}
+
             //ComparePricesAsync
 
             //BinanceAndGateIo
+            //Console.WriteLine("Binance - GateIo");
             //var comparerBinanceAndGateIo = new BinanceAndGateIoComparerPrice(binanceTickerApiService, binancePriceApiService, gateIoTickerApiService, gateIoPriceApiService);
             //await comparerBinanceAndGateIo.ComparerPrice();
 
-            //BiNanceAndByBit
-            var comparerBinanceAndByBit = new BinanceAndByBitComparerPrice(binanceTickerApiService, binancePriceApiService, byBitTickerApiService, byBitPriceApiService);
-            await comparerBinanceAndByBit.ComparerPrice();
+            ////BinanceAndByBit
+            //Console.WriteLine("Binance - ByBit");
+            //var comparerBinanceAndByBit = new BinanceAndByBitComparerPrice(binanceTickerApiService, binancePriceApiService, byBitTickerApiService, byBitPriceApiService);
+            //await comparerBinanceAndByBit.ComparerPrice();
+
+            //ByBitAndGateIo
+            Console.WriteLine("ByBit - GateIo");
+            var comparerByBitAndGateIo = new ByBitAndGateIoComparerPrice(byBitTickerApiService, byBitPriceApiService, gateIoTickerApiService, gateIoPriceApiService);
+            await comparerByBitAndGateIo.ComparerPrice();
         }
     }
 }
