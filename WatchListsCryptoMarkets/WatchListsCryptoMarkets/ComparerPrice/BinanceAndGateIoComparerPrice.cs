@@ -23,8 +23,6 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         public async Task ComparerPrice()
         {
-            string[] tickersDiscribe = new string[] { "MLN_USDT", "IOTA_USDT", "IOTA_BTC", "TRB_USDT", "WNXM_USDT", "MDX_USDT" };
-
             var tickersBinance = await _binaceTickerApiService.GetTickersAsync();
             var tickersGateIo = await _gateIoTickerApiService.GetTickersAsync();
 
@@ -61,22 +59,9 @@ namespace WatchListsCryptoMarkets.ComparerPrice
                     var priceBinance = await _binancePriceApiService.GetPriceAsync(symbolPair.BinanceTicker);
                     var priceGateIo = await _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);
 
-                    string additionalText = GetAdditionalText(symbolPair.GateIoTicker, tickersDiscribe);
-
-                    Console.WriteLine($"{symbolPair.BinanceTicker}, Difference: {symbolPair.PercentDifference}, Binance: {priceBinance}, GateIo: {priceGateIo}{additionalText}");
+                    Console.WriteLine($"{symbolPair.BinanceTicker}, Difference: {symbolPair.PercentDifference}, Binance: {priceBinance}, GateIo: {priceGateIo}");
                 }
             }
-        }
-
-
-        private string GetAdditionalText(string gateIoTicker, string[] tickersDiscribe)
-        {
-            if (tickersDiscribe.Contains(gateIoTicker))
-            {
-                return " Not relevant";
-            }
-
-            return string.Empty;
         }
 
         private string ReplaceBinanceTickerToGateIo(string binanceTicker)
