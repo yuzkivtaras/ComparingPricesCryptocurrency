@@ -68,6 +68,10 @@ namespace WatchListsCryptoMarkets.ComparerPrice
         {
             return binanceTicker.Replace("ETH", "-ETH")
                 .Replace("BTC", "-BTC")
+                .Replace("USDC", "-USDC")
+                .Replace("BNB", "-BNB")
+                .Replace("SHIB", "-SHIB")
+                .Replace("TRX", "-TRX")
                 .Replace("USDT", "-USDT");
         }
 
