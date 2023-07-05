@@ -50,14 +50,14 @@ namespace WatchListsCryptoMarkets
             var kucoinTickerApiService = new KucoinTickerApiService(new HttpClient());
             var kucoinPriceApiService = new KucoinPriceApiService(new HttpClient());
 
-            var tickersKucoin = await kucoinTickerApiService.GetTickersAsync();
-            foreach (var ticker in tickersKucoin)
-            {
-                var symbol = ticker.ToString();
-                var priceKucoin = await kucoinPriceApiService.GetPriceAsync(symbol);
+            //var tickersKucoin = await kucoinTickerApiService.GetTickersAsync();
+            //foreach (var ticker in tickersKucoin)
+            //{
+            //    var symbol = ticker.ToString();
+            //    var priceKucoin = await kucoinPriceApiService.GetPriceAsync(symbol);
 
-                Console.WriteLine($"Kucoin - Symbol: {symbol}, Price: {priceKucoin}");
-            }
+            //    Console.WriteLine($"Kucoin - Symbol: {symbol}, Price: {priceKucoin}");
+            //}
 
             //ComparePricesAsync
 
@@ -75,6 +75,11 @@ namespace WatchListsCryptoMarkets
             //Console.WriteLine("-----------ByBit - GateIo-----------");
             //var comparerByBitAndGateIo = new ByBitAndGateIoComparerPrice(byBitTickerApiService, byBitPriceApiService, gateIoTickerApiService, gateIoPriceApiService);
             //await comparerByBitAndGateIo.ComparerPrice();
+
+            //BinanceAndKucoin
+            Console.WriteLine("-----------Binance - Kucoin-----------");
+            var comparerBinanceAndKucoin = new BinanceAndKucoinComparerPrice(binanceTickerApiService, binancePriceApiService, kucoinTickerApiService, kucoinPriceApiService);
+            await comparerBinanceAndKucoin.ComparerPrice();
         }
     }
 }
