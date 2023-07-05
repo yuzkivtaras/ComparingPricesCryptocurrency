@@ -54,12 +54,12 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                if (symbolPair.PercentDifference >= 1)
+                if (symbolPair.PercentDifference >= 1.5)
                 {
                     var priceBinance = await _binancePriceApiService.GetPriceAsync(symbolPair.BinanceTicker);
                     var priceKucoin = await _kucoinPriceApiService.GetPriceAsync(symbolPair.KucoinTicker);
 
-                    Console.WriteLine($"{symbolPair.BinanceTicker}, Difference: {symbolPair.PercentDifference}, Binance: {priceBinance}, Kucoin: {priceKucoin}");
+                    Console.WriteLine($"{symbolPair.BinanceTicker}, Difference: {symbolPair.PercentDifference}, Binance: {priceBinance}, Kucoin: {priceKucoin}");       
                 }
             }
         }
