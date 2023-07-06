@@ -23,11 +23,13 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         public async Task ComparerPrice()
         {
+            string[] specialTickersIgnore = new string[] { "BIFIUSDT" };
+
             var tickersBinance = await _binaceTickerApiService.GetTickersAsync();
             var tickersKucoin = await _kucoinTickerApiService.GetTickersAsync();
 
             var symbolPairs = tickersBinance
-                .Where(ticker => tickersKucoin.Contains(ReplaceBinanceTickerToKucoin(ticker)))
+                .Where(ticker => tickersKucoin.Contains(ReplaceBinanceTickerToKucoin(ticker)) && !specialTickersIgnore.Contains(ticker))
                 .Select(ticker => new SymbolPairForBinanceAndKucoin
                 {
                     BinanceTicker = ticker,
@@ -54,7 +56,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                if (symbolPair.PercentDifference >= 1.5)
+                if (symbolPair.PercentDifference >= 3)
                 {
                     var priceBinance = await _binancePriceApiService.GetPriceAsync(symbolPair.BinanceTicker);
                     var priceKucoin = await _kucoinPriceApiService.GetPriceAsync(symbolPair.KucoinTicker);

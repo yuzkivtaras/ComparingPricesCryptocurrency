@@ -54,7 +54,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                if (symbolPair.PercentDifference >= 1)
+                if (symbolPair.PercentDifference >= 3)
                 {
                     var priceBinance = await _binancePriceApiService.GetPriceAsync(symbolPair.BinanceTicker);
                     var priceGateIo = await _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);
@@ -68,7 +68,8 @@ namespace WatchListsCryptoMarkets.ComparerPrice
         {
             return binanceTicker.Replace("ETH", "_ETH")
                 .Replace("BTC", "_BTC")
-                .Replace("USDT", "_USDT");
+                .Replace("USDT", "_USDT")
+                .Replace("USDC", "_USDc");
         }
 
         private double CalculatePriceDifferencePercent(decimal priceBinance, decimal priceGateIo)
