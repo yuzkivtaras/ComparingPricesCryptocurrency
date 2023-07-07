@@ -69,7 +69,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
             return binanceTicker.Replace("ETH", "_ETH")
                 .Replace("BTC", "_BTC")
                 .Replace("USDT", "_USDT")
-                .Replace("USDC", "_USDc");
+                .Replace("USDC", "_USDC");
         }
 
         private double CalculatePriceDifferencePercent(decimal priceBinance, decimal priceGateIo)

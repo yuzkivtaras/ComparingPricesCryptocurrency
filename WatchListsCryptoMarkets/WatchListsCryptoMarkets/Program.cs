@@ -60,7 +60,7 @@ namespace WatchListsCryptoMarkets
             //}
 
             //ComparePricesAsync
-           
+
             ////BinanceAndByBit
             //Console.WriteLine("-----------Binance - ByBit-----------");
             //var comparerBinanceAndByBit = new BinanceAndByBitComparerPrice(binanceTickerApiService, binancePriceApiService, byBitTickerApiService, byBitPriceApiService);
@@ -72,9 +72,9 @@ namespace WatchListsCryptoMarkets
             //await comparerBinanceAndGateIo.ComparerPrice();
 
             //BinanceAndKucoin
-            Console.WriteLine("-----------Binance - Kucoin-----------");
-            var comparerBinanceAndKucoin = new BinanceAndKucoinComparerPrice(binanceTickerApiService, binancePriceApiService, kucoinTickerApiService, kucoinPriceApiService);
-            await comparerBinanceAndKucoin.ComparerPrice();
+            //Console.WriteLine("-----------Binance - Kucoin-----------");
+            //var comparerBinanceAndKucoin = new BinanceAndKucoinComparerPrice(binanceTickerApiService, binancePriceApiService, kucoinTickerApiService, kucoinPriceApiService);
+            //await comparerBinanceAndKucoin.ComparerPrice();
 
             ////ByBitAndGateIo
             //Console.WriteLine("-----------ByBit - GateIo-----------");
@@ -86,6 +86,11 @@ namespace WatchListsCryptoMarkets
             //Console.WriteLine("-----------ByBit - Kucoin-----------");
             //var comparerByBitAndKucoin = new ByBitAndKucoinComparerPrice(byBitTickerApiService, byBitPriceApiService, kucoinTickerApiService, kucoinPriceApiService);
             //await comparerByBitAndKucoin.ComparerPrice();
+
+            //GateIoAndKucoin
+            Console.WriteLine("-----------GateIo - Kucoin-----------");
+            var comparerGateIoAndKucoin = new GateIoAndKucoinComparerPrice(gateIoTickerApiService, gateIoPriceApiService, kucoinTickerApiService, kucoinPriceApiService);
+            await comparerGateIoAndKucoin.ComparerPrice();
         }
     }
 }

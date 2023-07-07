@@ -59,7 +59,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                if (symbolPair.PercentDifference >= 1.5)
+                if (symbolPair.PercentDifference >= 3)
                 {
                     var priceByBit = await _byBitPriceApiService.GetPriceAsync(symbolPair.ByBitTicker);
                     var priceKucoin = await _kucoinPriceApiService.GetPriceAsync(symbolPair.KucoinTicker);
