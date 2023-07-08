@@ -58,7 +58,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                if (symbolPair.PercentDifference >= 3)
+                if (symbolPair.PercentDifference >= 4)
                 {
                     var priceGateIo = await _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);
                     var priceKucoin = await _kucoinPriceApiService.GetPriceAsync(symbolPair.KucoinTicker);                    
@@ -72,8 +72,8 @@ namespace WatchListsCryptoMarkets.ComparerPrice
         {
             return gateIoTicker.Replace("_ETH", "-ETH")
                 .Replace("_BTC", "-BTC")
-                .Replace("_USDT", "-USDT");
-                //.Replace("_USDC", "-USDC");
+                .Replace("_USDT", "-USDT")
+                .Replace("_USDC", "-USDC");
         }
 
         private double CalculatePriceDifferencePercent(decimal priceGateIo, decimal priceKucoin)

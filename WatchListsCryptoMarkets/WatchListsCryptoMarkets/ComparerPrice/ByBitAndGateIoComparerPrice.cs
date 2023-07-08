@@ -58,7 +58,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                if (symbolPair.PercentDifference >= 3)
+                if (symbolPair.PercentDifference >= 4)
                 {
                     var priceByBit = await _byBitPriceApiService.GetPriceAsync(symbolPair.ByBitTicker);
                     var priceGateIo = await _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);
