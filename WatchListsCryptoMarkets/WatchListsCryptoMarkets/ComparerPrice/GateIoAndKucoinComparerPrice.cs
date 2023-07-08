@@ -23,11 +23,15 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         public async Task ComparerPrice()
         {
+            string[] differentBlockchainsIgnore = new string[] { "DYP_ETH", "DYP_USDT", "MAN_USDT", "ANC_USDT", "MIR_USDT", "MOOV_USDT" };
+            string[] differentTickersIgnore = new string[] { "SWP_USDT", "STC_USDT", "TRAC_USDT" };
+            string[] notAvailableDeposit = new string[] { "CARE_USDT", "PRIMAL_USDT", "CWS_USDT", "OOE_USDT", "METIS_USDT" };
+
             var tickersGateIo = await _gateIoTickerApiService.GetTickersAsync();
             var tickersKucoin = await _kucoinTickerApiService.GetTickersAsync();
 
             var symbolPairs = tickersGateIo
-                .Where(ticker => tickersKucoin.Contains(ReplaceGateIoTickerToKucoin(ticker)))
+                .Where(ticker => tickersKucoin.Contains(ReplaceGateIoTickerToKucoin(ticker)) && !differentBlockchainsIgnore.Contains(ticker) && !differentTickersIgnore.Contains(ticker) && !notAvailableDeposit.Contains(ticker))
                 .Select(ticker => new SymbolPairForGateIoAndKucoin
                 {
                     GateIoTicker = ticker,
@@ -68,8 +72,8 @@ namespace WatchListsCryptoMarkets.ComparerPrice
         {
             return gateIoTicker.Replace("_ETH", "-ETH")
                 .Replace("_BTC", "-BTC")
-                .Replace("_USDT", "-USDT")
-                .Replace("_USDC", "-USDC");
+                .Replace("_USDT", "-USDT");
+                //.Replace("_USDC", "-USDC");
         }
 
         private double CalculatePriceDifferencePercent(decimal priceGateIo, decimal priceKucoin)
