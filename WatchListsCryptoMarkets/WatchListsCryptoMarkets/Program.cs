@@ -61,13 +61,15 @@ namespace WatchListsCryptoMarkets
 
             //Kraken API
             var krakenTickerApiService = new KrakenTicketApiService(new HttpClient());
+            var krakenPriceApiService = new KrakenPriceApiService(new HttpClient());
 
             var tickersKraken = await krakenTickerApiService.GetTickersAsync();
             foreach (var ticker in tickersKraken)
             {
                 var symbol = ticker.ToString();
+                var priceKraken = await krakenPriceApiService.GetPriceAsync(symbol);
 
-                Console.WriteLine(symbol);
+                Console.WriteLine($"Kraken - Symbol: {symbol}, Price: {priceKraken}");
             }
 
             //ComparePricesAsync
