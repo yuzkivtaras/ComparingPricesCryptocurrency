@@ -1,5 +1,4 @@
-﻿using CryptoExchange.Net.CommonObjects;
-using WatchListsCryptoMarkets.ComparerPrice;
+﻿using WatchListsCryptoMarkets.ComparerPrice;
 using WatchListsCryptoMarkets.Services.PriceApiService;
 using WatchListsCryptoMarkets.Services.TickerApiService;
 
@@ -63,14 +62,14 @@ namespace WatchListsCryptoMarkets
             var krakenTickerApiService = new KrakenTicketApiService(new HttpClient());
             var krakenPriceApiService = new KrakenPriceApiService(new HttpClient());
 
-            var tickersKraken = await krakenTickerApiService.GetTickersAsync();
-            foreach (var ticker in tickersKraken)
-            {
-                var symbol = ticker.ToString();
-                var priceKraken = await krakenPriceApiService.GetPriceAsync(symbol);
+            //var tickersKraken = await krakenTickerApiService.GetTickersAsync();
+            //foreach (var ticker in tickersKraken)
+            //{
+            //    var symbol = ticker.ToString();
+            //    var priceKraken = await krakenPriceApiService.GetPriceAsync(symbol);
 
-                Console.WriteLine($"Kraken - Symbol: {symbol}, Price: {priceKraken}");
-            }
+            //    Console.WriteLine($"Kraken - Symbol: {symbol}, Price: {priceKraken}");
+            //}
 
             //ComparePricesAsync
 
@@ -104,6 +103,11 @@ namespace WatchListsCryptoMarkets
             //Console.WriteLine("-----------GateIo - Kucoin-----------");
             //var comparerGateIoAndKucoin = new GateIoAndKucoinComparerPrice(gateIoTickerApiService, gateIoPriceApiService, kucoinTickerApiService, kucoinPriceApiService);
             //await comparerGateIoAndKucoin.ComparerPrice();
+
+            //BinanceAndKraken
+            Console.WriteLine("-----------Binance - Kraken-----------");
+            var comparerBinanceAndKraken = new BinanceAndKrakenComparerPrice(binanceTickerApiService, binancePriceApiService, krakenTickerApiService, krakenPriceApiService);
+            await comparerBinanceAndKraken.ComparerPrice();
         }
     }
 }
