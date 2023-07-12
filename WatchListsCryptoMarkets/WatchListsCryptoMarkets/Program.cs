@@ -71,6 +71,16 @@ namespace WatchListsCryptoMarkets
             //    Console.WriteLine($"Kraken - Symbol: {symbol}, Price: {priceKraken}");
             //}
 
+            //OKX API
+            var okxTickerApiService = new OkxTickerApiService(new HttpClient());
+
+            var tickersOkx = await okxTickerApiService.GetTickersAsync();
+            foreach (var ticker in tickersOkx)
+            {
+                var symbol = ticker.ToString();
+                Console.WriteLine(symbol);
+            }
+
             //ComparePricesAsync
 
             ////BinanceAndByBit
@@ -119,10 +129,10 @@ namespace WatchListsCryptoMarkets
             //var comparerGateIoAndKraken = new GateIoAndKrakenComaparerPrice(gateIoTickerApiService, gateIoPriceApiService, krakenTickerApiService, krakenPriceApiService);
             //await comparerGateIoAndKraken.ComparerPrice();
 
-            //KucoinAndKraken
-            Console.WriteLine("-----------Kucoin - Kraken-----------");
-            var comparerKucoinAndKraken = new KucoinAndKrakenComparerPrice(kucoinTickerApiService, kucoinPriceApiService, krakenTickerApiService, krakenPriceApiService);
-            await comparerKucoinAndKraken.ComparerPrice();
+            ////KucoinAndKraken
+            //Console.WriteLine("-----------Kucoin - Kraken-----------");
+            //var comparerKucoinAndKraken = new KucoinAndKrakenComparerPrice(kucoinTickerApiService, kucoinPriceApiService, krakenTickerApiService, krakenPriceApiService);
+            //await comparerKucoinAndKraken.ComparerPrice();
         }
     }
 }
