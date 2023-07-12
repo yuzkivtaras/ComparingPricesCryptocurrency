@@ -1,9 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WatchListsCryptoMarkets.Client;
 using WatchListsCryptoMarkets.IClient;
 using WatchListsCryptoMarkets.IServices;
@@ -21,7 +16,7 @@ namespace WatchListsCryptoMarkets.Services.TickerApiService
 
         public async Task<JArray> GetTickerInfoAsync()
         {
-            var response = await _httpClient.GetAsync("https://www.okx.com/api/v5/market/tickers?instType=SWAP");
+            var response = await _httpClient.GetAsync("https://www.okx.com/api/v5/public/instruments?instType=SPOT");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -43,10 +38,10 @@ namespace WatchListsCryptoMarkets.Services.TickerApiService
             var ignoredTickers = LoadIgnoredTickersFromFile();
 
             var tickers = from ticker in tickerInfo
-                          let symbol = (string)ticker["instId"]
-                          let formattedSymbol = symbol.Replace("-SWAP", "")
-                          where !ignoredTickers.Contains(formattedSymbol)
-                          select formattedSymbol;
+                          select (string)ticker["instId"]
+                          into symbol
+                          where !ignoredTickers.Contains(symbol)
+                          select symbol;
 
             return tickers;
         }

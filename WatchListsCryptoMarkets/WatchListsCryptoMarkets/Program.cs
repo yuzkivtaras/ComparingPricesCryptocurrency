@@ -73,12 +73,15 @@ namespace WatchListsCryptoMarkets
 
             //OKX API
             var okxTickerApiService = new OkxTickerApiService(new HttpClient());
+            var okxPriceApiService = new OkxPriceApiService(new HttpClient());
 
             var tickersOkx = await okxTickerApiService.GetTickersAsync();
             foreach (var ticker in tickersOkx)
             {
                 var symbol = ticker.ToString();
-                Console.WriteLine(symbol);
+                var priceOkx = await okxPriceApiService.GetPriceAsync(symbol);
+
+                Console.WriteLine($"OKX - Symbol: {symbol}, Price: {priceOkx}");
             }
 
             //ComparePricesAsync
