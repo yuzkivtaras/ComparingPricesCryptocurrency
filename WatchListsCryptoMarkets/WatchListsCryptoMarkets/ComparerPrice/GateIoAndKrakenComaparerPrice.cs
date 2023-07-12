@@ -59,7 +59,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                if (symbolPair.PercentDifference >= 0.5)
+                if (symbolPair.PercentDifference >= 1)
                 {
                     var priceGateIo = await _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);
                     var priceKraken = await _krakenPriceApiService.GetPriceAsync(symbolPair.KrakenTicker);
@@ -73,7 +73,6 @@ namespace WatchListsCryptoMarkets.ComparerPrice
         {
             return gateIoTicker.Replace("_ETH", "/ETH")
                 .Replace("_BTC", "/BTC")
-                .Replace("_AUD", "/AUD")
                 .Replace("_USDC", "/USDC")
                 .Replace("_USDT", "/USDT");
         }

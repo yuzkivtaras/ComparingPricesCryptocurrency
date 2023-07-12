@@ -20,7 +20,7 @@ namespace WatchListsCryptoMarkets.Services.PriceApiService
         public KrakenPriceApiService(HttpClient httpClient)
         {
             _httpClient = new HttpClientWrapper(httpClient);
-            _rateLimiter = new SemaphoreSlim(19);
+            _rateLimiter = new SemaphoreSlim(5);
         }
 
         public async Task<decimal> GetPriceAsync(string symbol)

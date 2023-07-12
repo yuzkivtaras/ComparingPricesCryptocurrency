@@ -53,9 +53,9 @@ namespace WatchListsCryptoMarkets
             //foreach (var ticker in tickersKucoin)
             //{
             //    var symbol = ticker.ToString();
-            //    var priceKucoin = await kucoinPriceApiService.GetPriceAsync(symbol);
+            //    //var priceKucoin = await kucoinPriceApiService.GetPriceAsync(symbol);
 
-            //    Console.WriteLine($"Kucoin - Symbol: {symbol}, Price: {priceKucoin}");
+            //    //Console.WriteLine($"Kucoin - Symbol: {symbol}, Price: {priceKucoin}");
             //}
 
             //Kraken API
@@ -114,10 +114,15 @@ namespace WatchListsCryptoMarkets
             //var comparerByBitAndKraken = new ByBitAndKrakenComparerPrice(byBitTickerApiService, byBitPriceApiService, krakenTickerApiService, krakenPriceApiService);
             //await comparerByBitAndKraken.ComparerPrice();
 
-            //GateIoAndKraken
-            Console.WriteLine("-----------GateIo - Kraken-----------");
-            var comparerGateIoAndKraken = new GateIoAndKrakenComaparerPrice(gateIoTickerApiService, gateIoPriceApiService, krakenTickerApiService, krakenPriceApiService);
-            await comparerGateIoAndKraken.ComparerPrice();
+            ////GateIoAndKraken
+            //Console.WriteLine("-----------GateIo - Kraken-----------");
+            //var comparerGateIoAndKraken = new GateIoAndKrakenComaparerPrice(gateIoTickerApiService, gateIoPriceApiService, krakenTickerApiService, krakenPriceApiService);
+            //await comparerGateIoAndKraken.ComparerPrice();
+
+            //KucoinAndKraken
+            Console.WriteLine("-----------Kucoin - Kraken-----------");
+            var comparerKucoinAndKraken = new KucoinAndKrakenComparerPrice(kucoinTickerApiService, kucoinPriceApiService, krakenTickerApiService, krakenPriceApiService);
+            await comparerKucoinAndKraken.ComparerPrice();
         }
     }
 }
