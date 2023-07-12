@@ -75,14 +75,15 @@ namespace WatchListsCryptoMarkets
             var okxTickerApiService = new OkxTickerApiService(new HttpClient());
             var okxPriceApiService = new OkxPriceApiService(new HttpClient());
 
-            var tickersOkx = await okxTickerApiService.GetTickersAsync();
-            foreach (var ticker in tickersOkx)
-            {
-                var symbol = ticker.ToString();
-                var priceOkx = await okxPriceApiService.GetPriceAsync(symbol);
+            //var tickersOkx = await okxTickerApiService.GetTickersAsync();
+            //foreach (var ticker in tickersOkx)
+            //{
+            //    var symbol = ticker.ToString();
+            //    var priceOkx = await okxPriceApiService.GetPriceAsync(symbol);
 
-                Console.WriteLine($"OKX - Symbol: {symbol}, Price: {priceOkx}");
-            }
+            //    Console.WriteLine($"OKX - Symbol: {symbol}, Price: {priceOkx}");
+            //    //Console.WriteLine(symbol);
+            //}
 
             //ComparePricesAsync
 
@@ -136,6 +137,11 @@ namespace WatchListsCryptoMarkets
             //Console.WriteLine("-----------Kucoin - Kraken-----------");
             //var comparerKucoinAndKraken = new KucoinAndKrakenComparerPrice(kucoinTickerApiService, kucoinPriceApiService, krakenTickerApiService, krakenPriceApiService);
             //await comparerKucoinAndKraken.ComparerPrice();
+
+            //BinanceAndOKX
+            Console.WriteLine("-----------Binance - OKX-----------");
+            var comparerBinanceAndOkx = new BinanceAndOkxComparerPrice(binanceTickerApiService, binancePriceApiService, okxTickerApiService, okxPriceApiService);
+            await comparerBinanceAndOkx.ComparerPrice();
         }
     }
 }

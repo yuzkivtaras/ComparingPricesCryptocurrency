@@ -16,7 +16,7 @@ namespace WatchListsCryptoMarkets.Services.TickerApiService
 
         public async Task<JArray> GetTickerInfoAsync()
         {
-            var response = await _httpClient.GetAsync("https://www.okx.com/api/v5/public/instruments?instType=SPOT");
+            var response = await _httpClient.GetAsync("https://www.okx.com/api/v5/public/mark-price?instType=SWAP");
 
             if (!response.IsSuccessStatusCode)
             {
