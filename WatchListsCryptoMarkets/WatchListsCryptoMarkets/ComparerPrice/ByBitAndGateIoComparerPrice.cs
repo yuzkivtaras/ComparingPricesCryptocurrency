@@ -1,6 +1,4 @@
-﻿using CryptoExchange.Net.CommonObjects;
-using System.Linq;
-using WatchListsCryptoMarkets.Services.PriceApiService;
+﻿using WatchListsCryptoMarkets.Services.PriceApiService;
 using WatchListsCryptoMarkets.Services.TickerApiService;
 
 namespace WatchListsCryptoMarkets.ComparerPrice

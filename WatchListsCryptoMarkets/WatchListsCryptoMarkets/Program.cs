@@ -104,10 +104,15 @@ namespace WatchListsCryptoMarkets
             //var comparerGateIoAndKucoin = new GateIoAndKucoinComparerPrice(gateIoTickerApiService, gateIoPriceApiService, kucoinTickerApiService, kucoinPriceApiService);
             //await comparerGateIoAndKucoin.ComparerPrice();
 
-            //BinanceAndKraken
-            Console.WriteLine("-----------Binance - Kraken-----------");
-            var comparerBinanceAndKraken = new BinanceAndKrakenComparerPrice(binanceTickerApiService, binancePriceApiService, krakenTickerApiService, krakenPriceApiService);
-            await comparerBinanceAndKraken.ComparerPrice();
+            ////BinanceAndKraken
+            //Console.WriteLine("-----------Binance - Kraken-----------");
+            //var comparerBinanceAndKraken = new BinanceAndKrakenComparerPrice(binanceTickerApiService, binancePriceApiService, krakenTickerApiService, krakenPriceApiService);
+            //await comparerBinanceAndKraken.ComparerPrice();
+
+            ////ByBitAndKraken
+            //Console.WriteLine("-----------ByBit - Kraken-----------");
+            //var comparerByBitAndKraken = new ByBitAndKrakenComparerPrice(byBitTickerApiService, byBitPriceApiService, krakenTickerApiService, krakenPriceApiService);
+            //await comparerByBitAndKraken.ComparerPrice();
         }
     }
 }
