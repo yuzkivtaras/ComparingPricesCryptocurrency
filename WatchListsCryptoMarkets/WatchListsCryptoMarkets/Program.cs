@@ -113,6 +113,11 @@ namespace WatchListsCryptoMarkets
             //Console.WriteLine("-----------ByBit - Kraken-----------");
             //var comparerByBitAndKraken = new ByBitAndKrakenComparerPrice(byBitTickerApiService, byBitPriceApiService, krakenTickerApiService, krakenPriceApiService);
             //await comparerByBitAndKraken.ComparerPrice();
+
+            //GateIoAndKraken
+            Console.WriteLine("-----------GateIo - Kraken-----------");
+            var comparerGateIoAndKraken = new GateIoAndKrakenComaparerPrice(gateIoTickerApiService, gateIoPriceApiService, krakenTickerApiService, krakenPriceApiService);
+            await comparerGateIoAndKraken.ComparerPrice();
         }
     }
 }
