@@ -72,8 +72,8 @@ namespace WatchListsCryptoMarkets.ComparerPrice
         private string ReplaceBinanceTickerToOkx(string binanceTicker)
         {
             return binanceTicker.Replace("ETH", "-ETH-SWAP")
-                //.Replace("BTC", "-BTC-SWAP")
-                //.Replace("USDT", "-USDT-SWAP")
+                .Replace("BTC", "-BTC-SWAP")
+                .Replace("USDT", "-USDT-SWAP")
                 .Replace("USDC", "-USDC-SWAP");
         }
 
