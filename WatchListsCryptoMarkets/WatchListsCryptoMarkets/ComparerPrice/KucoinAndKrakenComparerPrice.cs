@@ -66,10 +66,10 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         private string ReplaceKucoinTickerToKraken(string KucoinTicker)
         {
-            return KucoinTicker.Replace("_ETH", "/ETH")
-                .Replace("_BTC", "/BTC")
-                .Replace("_USDT", "/USDT")
-                .Replace("_USDC", "/USDC");
+            return KucoinTicker.Replace("-ETH", "/ETH")
+                .Replace("-BTC", "/BTC")
+                .Replace("-USDT", "/USDT")
+                .Replace("-USDC", "/USDC");
         }
 
         private double CalculatePriceDifferencePercent(decimal priceKucoin, decimal priceKraken)
