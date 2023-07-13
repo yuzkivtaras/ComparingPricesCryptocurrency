@@ -143,10 +143,15 @@ namespace WatchListsCryptoMarkets
             //var comparerBinanceAndOkx = new BinanceAndOkxComparerPrice(binanceTickerApiService, binancePriceApiService, okxTickerApiService, okxPriceApiService);
             //await comparerBinanceAndOkx.ComparerPrice();
 
-            //ByBitAndOKX
-            Console.WriteLine("-----------ByBit - OKX-----------");
-            var comparerByBitandOkx = new ByBitAndOkxComparerPrice(byBitTickerApiService, byBitPriceApiService, okxTickerApiService, okxPriceApiService);
-            await comparerByBitandOkx.ComparerPrice();
+            ////ByBitAndOKX
+            //Console.WriteLine("-----------ByBit - OKX-----------");
+            //var comparerByBitandOkx = new ByBitAndOkxComparerPrice(byBitTickerApiService, byBitPriceApiService, okxTickerApiService, okxPriceApiService);
+            //await comparerByBitandOkx.ComparerPrice();
+
+            //GateIoAndOKX
+            Console.WriteLine("-----------GateIo - OKX-----------");
+            var comparerGateIoAndOkx = new GateIoAndOkxComparerPrice(gateIoTickerApiService, gateIoPriceApiService, okxTickerApiService, okxPriceApiService);
+            await comparerGateIoAndOkx.ComparerPrice();
         }
     }
 }
