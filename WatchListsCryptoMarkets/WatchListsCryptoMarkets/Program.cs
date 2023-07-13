@@ -133,10 +133,10 @@ namespace WatchListsCryptoMarkets
             //var comparerGateIoAndKraken = new GateIoAndKrakenComaparerPrice(gateIoTickerApiService, gateIoPriceApiService, krakenTickerApiService, krakenPriceApiService);
             //await comparerGateIoAndKraken.ComparerPrice();
 
-            //KucoinAndKraken
-            Console.WriteLine("-----------Kucoin - Kraken-----------");
-            var comparerKucoinAndKraken = new KucoinAndKrakenComparerPrice(kucoinTickerApiService, kucoinPriceApiService, krakenTickerApiService, krakenPriceApiService);
-            await comparerKucoinAndKraken.ComparerPrice();
+            ////KucoinAndKraken
+            //Console.WriteLine("-----------Kucoin - Kraken-----------");
+            //var comparerKucoinAndKraken = new KucoinAndKrakenComparerPrice(kucoinTickerApiService, kucoinPriceApiService, krakenTickerApiService, krakenPriceApiService);
+            //await comparerKucoinAndKraken.ComparerPrice();
 
             ////BinanceAndOKX
             //Console.WriteLine("-----------Binance - OKX-----------");
@@ -157,6 +157,11 @@ namespace WatchListsCryptoMarkets
             //Console.WriteLine("-----------Kucoin - OKX-----------");
             //var comparerKucoinAndOkx = new KucoinAndOkxComparerPrice(kucoinTickerApiService, kucoinPriceApiService, okxTickerApiService, okxPriceApiService);
             //await comparerKucoinAndOkx.ComparerPrice();
+
+            ////KrakenAndOKX
+            //Console.WriteLine("-----------Kraken - OKX-----------");
+            //var comparerKrakenAndOkx = new KrakenAndOkxComparerPrice(krakenTickerApiService, krakenPriceApiService, okxTickerApiService, okxPriceApiService);
+            //await comparerKrakenAndOkx.ComparerPrice();
         }
     }
 }
