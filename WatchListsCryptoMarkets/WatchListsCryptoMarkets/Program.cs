@@ -10,6 +10,9 @@ namespace WatchListsCryptoMarkets
         public static async Task Main()
         {
             //Binance API
+            //Stable Coins: USDT, TUSD, BUSD, USDC
+            //Coins: BNB, BTC, ETH, DAI, VAI, XRP, TRX, DOGE, DOT
+            //FIAT: TRY, EUR, BRL, ARS, BIDR, GBP, IDRT, NGN, PLN, RON, RUB, UAH, ZAR
             var binanceTickerApiService = new BinanceTickerApiService(new HttpClient());
             var binancePriceApiService = new BinancePriceApiService(new HttpClient());
 
@@ -18,7 +21,8 @@ namespace WatchListsCryptoMarkets
             //{
             //    var symbol = ticker.ToString();
             //    var priceBinance = await binancePriceApiService.GetPriceAsync(symbol);
-            //    Console.WriteLine($"Binance - Symbol: {symbol}, Price: {priceBinance}");
+            //    //Console.WriteLine($"Binance - Symbol: {symbol}, Price: {priceBinance}");
+            //    Console.WriteLine(symbol);
             //}
 
             //GateIo API
@@ -87,15 +91,15 @@ namespace WatchListsCryptoMarkets
 
             //ComparePricesAsync
 
-            ////BinanceAndByBit
-            //Console.WriteLine("-----------Binance - ByBit-----------");
-            //var comparerBinanceAndByBit = new BinanceAndByBitComparerPrice(binanceTickerApiService, binancePriceApiService, byBitTickerApiService, byBitPriceApiService);
-            //await comparerBinanceAndByBit.ComparerPrice();
+            //BinanceAndByBit
+            Console.WriteLine("-----------Binance - ByBit-----------");
+            var comparerBinanceAndByBit = new BinanceAndByBitComparerPrice(binanceTickerApiService, binancePriceApiService, byBitTickerApiService, byBitPriceApiService);
+            await comparerBinanceAndByBit.ComparerPrice();
 
-            ////BinanceAndGateIo
-            //Console.WriteLine("-----------Binance - GateIo-----------");
-            //var comparerBinanceAndGateIo = new BinanceAndGateIoComparerPrice(binanceTickerApiService, binancePriceApiService, gateIoTickerApiService, gateIoPriceApiService);
-            //await comparerBinanceAndGateIo.ComparerPrice();
+            //BinanceAndGateIo
+            Console.WriteLine("-----------Binance - GateIo-----------");
+            var comparerBinanceAndGateIo = new BinanceAndGateIoComparerPrice(binanceTickerApiService, binancePriceApiService, gateIoTickerApiService, gateIoPriceApiService);
+            await comparerBinanceAndGateIo.ComparerPrice();
 
             ////BinanceAndKucoin
             //Console.WriteLine("-----------Binance - Kucoin-----------");
