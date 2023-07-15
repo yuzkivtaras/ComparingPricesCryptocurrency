@@ -28,11 +28,13 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         public async Task ComparerPrice()
         {
+            string[] unavailableOutputGateIo = new string[] { "MLN_ETH" };
+
             var tickersGateIo = await _gateIoTickerApiService.GetTickersAsync();
             var tickersKraken = await _krakenTicketApiService.GetTickersAsync();
 
             var symbolPairs = tickersGateIo
-                .Where(ticker => tickersKraken.Contains(ReplaceGateIoTickerToKraken(ticker)))
+                .Where(ticker => tickersKraken.Contains(ReplaceGateIoTickerToKraken(ticker)) && !unavailableOutputGateIo.Contains(ticker))
                 .Select(ticker => new SymbolPairForGateIoAndKraken
                 {
                     GateIoTicker = ticker,
@@ -59,7 +61,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                if (symbolPair.PercentDifference >= 1)
+                if (symbolPair.PercentDifference >= 4)
                 {
                     var priceGateIo = await _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);
                     var priceKraken = await _krakenPriceApiService.GetPriceAsync(symbolPair.KrakenTicker);
@@ -71,10 +73,31 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         private string ReplaceGateIoTickerToKraken(string gateIoTicker)
         {
-            return gateIoTicker.Replace("_ETH", "/ETH")
-                .Replace("_BTC", "/BTC")
+            return gateIoTicker.Replace("_USDT", "/USDT")
+                .Replace("_TUSD", "/TUSD")
+                .Replace("_BUSD", "/BUSD")
                 .Replace("_USDC", "/USDC")
-                .Replace("_USDT", "/USDT");
+                .Replace("_BNB", "/BNB")
+                .Replace("_BTC", "/BTC")
+                .Replace("_ETH", "/ETH")
+                .Replace("_DAI", "/DAI")
+                .Replace("_VAI", "/VAI")
+                .Replace("_XRP", "/XRP")
+                .Replace("_TRX", "/TRX")
+                .Replace("_DOGE", "/DOGE")
+                .Replace("_DOT", "/DOT")
+                .Replace("_TRY", "/TRY")
+                .Replace("_EUR", "/EUR")
+                .Replace("_BRL", "/BRL")
+                .Replace("_ARS", "/ARS")
+                .Replace("_BIDR", "/BIDR")
+                .Replace("_GBP", "/GBP")
+                .Replace("_IDRT", "/IDRT")
+                .Replace("_NGN", "/NGN")
+                .Replace("_PLN", "/PLN")
+                .Replace("_RUB", "/RUB")
+                .Replace("_UAH", "/UAH")
+                .Replace("_ZAR", "/ZAR");
         }
 
         private double CalculatePriceDifferencePercent(decimal priceGateIo, decimal priceKraken)

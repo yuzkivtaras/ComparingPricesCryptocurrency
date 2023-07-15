@@ -54,7 +54,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                if (symbolPair.PercentDifference >= 1)
+                if (symbolPair.PercentDifference >= 4)
                 {                    
                     var priceKraken = await _krakenPriceApiService.GetPriceAsync(symbolPair.KrakenTicker);
                     var priceOkx = await _okxPriceApiService.GetPriceAsync(symbolPair.OkxTicker);
@@ -66,10 +66,31 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         private string ReplaceKrakenTickerToOkx(string KrakenTicker)
         {
-            return KrakenTicker.Replace("/ETH", "-ETH-SWAP")
+            return KrakenTicker.Replace("/USDT", "-USDT-SWAP")
+                .Replace("/TUSD", "-TUSD-SWAP")
+                .Replace("/BUSD", "-BUSD-SWAP")
+                .Replace("/USDC", "-USDC-SWAP")
+                .Replace("/BNB", "-BNB-SWAP")
                 .Replace("/BTC", "-BTC-SWAP")
-                .Replace("/USDT", "-USDT-SWAP")
-                .Replace("/USDC", "-USDC-SWAP");
+                .Replace("/ETH", "-ETH-SWAP")
+                .Replace("/DAI", "-DAI-SWAP")
+                .Replace("/VAI", "-VAI-SWAP")
+                .Replace("/XRP", "-XRP-SWAP")
+                .Replace("/TRX", "-TRX-SWAP")
+                .Replace("/DOGE", "-DOGE-SWAP")
+                .Replace("/DOT", "-DOT-SWAP")
+                .Replace("/TRY", "-TRY-SWAP")
+                .Replace("/EUR", "-EUR-SWAP")
+                .Replace("/BRL", "-BRL-SWAP")
+                .Replace("/ARS", "-ARS-SWAP")
+                .Replace("/BIDR", "-BIDR-SWAP")
+                .Replace("/GBP", "-GBP-SWAP")
+                .Replace("/IDRT", "-IDRT-SWAP")
+                .Replace("/NGN", "-NGN-SWAP")
+                .Replace("/PLN", "-PLN-SWAP")
+                .Replace("/RUB", "-RUB-SWAP")
+                .Replace("/UAH", "-UAH-SWAP")
+                .Replace("/ZAR", "-ZAR-SWAP");
         }
 
         private double CalculatePriceDifferencePercent(decimal priceKraken, decimal priceOkx)

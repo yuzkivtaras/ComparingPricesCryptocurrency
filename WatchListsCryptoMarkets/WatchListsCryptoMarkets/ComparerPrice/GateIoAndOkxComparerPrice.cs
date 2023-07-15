@@ -23,7 +23,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         public async Task ComparerPrice()
         {
-            string[] notAvailableDeposit = new string[] { "FLM_USDT" };
+            string[] notAvailableDeposit = new string[] { "FLM_USDT", "IOTA_USDT" };
 
             var tickersGateIo = await _gateIoTickerApiService.GetTickersAsync();
             var tickersOkx = await _okxTickerApiService.GetTickersAsync();
@@ -56,7 +56,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                if (symbolPair.PercentDifference >= 1)
+                if (symbolPair.PercentDifference >= 4)
                 {
                     var priceGateIo = await _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);
                     var priceOkx = await _okxPriceApiService.GetPriceAsync(symbolPair.OkxTicker);
@@ -68,10 +68,31 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         private string ReplaceGateIoTickerToOkx(string okxTicker)
         {
-            return okxTicker.Replace("_ETH", "-ETH-SWAP")
-                .Replace("_BTC", "-BTC-SWAP")
+            return okxTicker.Replace("_USDT", "-USDT-SWAP")
+                .Replace("_TUSD", "-TUSD-SWAP")
+                .Replace("_BUSD", "-BUSD-SWAP")
                 .Replace("_USDC", "-USDC-SWAP")
-                .Replace("_USDT", "-USDT-SWAP");
+                .Replace("_BNB", "-BNB-SWAP")
+                .Replace("_BTC", "-BTC-SWAP")
+                .Replace("_ETH", "-ETH-SWAP")
+                .Replace("_DAI", "-DAI-SWAP")
+                .Replace("_VAI", "-VAI-SWAP")
+                .Replace("_XRP", "-XRP-SWAP")
+                .Replace("_TRX", "-TRX-SWAP")
+                .Replace("_DOGE", "-DOGE-SWAP")
+                .Replace("_DOT", "-DOT-SWAP")
+                .Replace("_TRY", "-TRY-SWAP")
+                .Replace("_EUR", "-EUR-SWAP")
+                .Replace("_BRL", "-BRL-SWAP")
+                .Replace("_ARS", "-ARS-SWAP")
+                .Replace("_BIDR", "-BIDR-SWAP")
+                .Replace("_GBP", "-GBP-SWAP")
+                .Replace("_IDRT", "-IDRT-SWAP")
+                .Replace("_NGN", "-NGN-SWAP")
+                .Replace("_PLN", "-PLN-SWAP")
+                .Replace("_RUB", "-RUB-SWAP")
+                .Replace("_UAH", "-UAH-SWAP")
+                .Replace("_ZAR", "-ZAR-SWAP");
         }
 
         private double CalculatePriceDifferencePercent(decimal priceGateIo, decimal priceOkx)

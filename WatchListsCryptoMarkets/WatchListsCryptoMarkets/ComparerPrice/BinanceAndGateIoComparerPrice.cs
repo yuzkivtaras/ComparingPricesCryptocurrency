@@ -25,7 +25,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
         {
             string[] justForGateIoTickers = new string[] { "BIFIUSDT", "GTCUSDT", "GTCBTC" };
             string[] unavailableOutputGateIo = new string[] { "TORNUSDT", "MLNUSDT", "IOTABTC", "FLMUSDT", "IOTAUSDT",  };
-            string[] differentСurrency = new string[] { "QIUSDT" };
+            string[] differentСurrency = new string[] { "QI_USDT" };
             string[] differentBlockchains = new string[] { "MDXUSDT" };
             string[] bigRent = new string[] { "DEGOUSDT" };
 
@@ -33,7 +33,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
             var tickersGateIo = await _gateIoTickerApiService.GetTickersAsync();
 
             var symbolPairs = tickersBinance
-                .Where(ticker => tickersGateIo.Contains(ReplaceBinanceTickerToGateIo(ticker)) && !justForGateIoTickers.Contains(ticker) && !unavailableOutputGateIo.Contains(ticker) && !differentBlockchains.Contains(ticker) && !bigRent.Contains(ticker))
+                .Where(ticker => tickersGateIo.Contains(ReplaceBinanceTickerToGateIo(ticker)) && !justForGateIoTickers.Contains(ticker) && !unavailableOutputGateIo.Contains(ticker) && !differentBlockchains.Contains(ticker) && !bigRent.Contains(ticker) && differentСurrency.Contains(ticker))
                 .Select(ticker => new SymbolPairForBinanceAndGateIo
                 {
                     BinanceTicker = ticker,
@@ -60,7 +60,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                if (symbolPair.PercentDifference >= 3.5)
+                if (symbolPair.PercentDifference >= 4)
                 {
                     var priceBinance = await _binancePriceApiService.GetPriceAsync(symbolPair.BinanceTicker);
                     var priceGateIo = await _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);

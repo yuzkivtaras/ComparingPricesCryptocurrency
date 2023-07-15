@@ -24,14 +24,15 @@ namespace WatchListsCryptoMarkets.ComparerPrice
         public async Task ComparerPrice()
         {
             string[] differentBlockchainsIgnore = new string[] { "DYP_ETH", "DYP_USDT", "MAN_USDT", "ANC_USDT", "MIR_USDT", "MOOV_USDT" };
-            string[] differentTickersIgnore = new string[] { "SWP_USDT", "STC_USDT", "TRAC_USDT" };
-            string[] notAvailableDeposit = new string[] { "CARE_USDT", "PRIMAL_USDT", "CWS_USDT", "OOE_USDT", "METIS_USDT" };
+            string[] differentTickersIgnore = new string[] { "SWP_USDT", "STC_USDT", "TRAC_USDT", "BIFI_USDT", "MM_USDT", "TIME_USDT", "QI_USDT" };
+            string[] notAvailableDeposit = new string[] { "CARE_USDT", "PRIMAL_USDT", "CWS_USDT", "OOE_USDT", "METIS_USDT", "MLN_USDT", "IOTA_BTC", "IOTA_USDT" };
+            string[] ilLiquid = new string[] { "TARA_ETH", "STORJ_BTC" , "NWC_BTC", "TRIBE_USDT", "DOCK_ETH", "CFX_ETH" };
 
             var tickersGateIo = await _gateIoTickerApiService.GetTickersAsync();
             var tickersKucoin = await _kucoinTickerApiService.GetTickersAsync();
 
             var symbolPairs = tickersGateIo
-                .Where(ticker => tickersKucoin.Contains(ReplaceGateIoTickerToKucoin(ticker)) && !differentBlockchainsIgnore.Contains(ticker) && !differentTickersIgnore.Contains(ticker) && !notAvailableDeposit.Contains(ticker))
+                .Where(ticker => tickersKucoin.Contains(ReplaceGateIoTickerToKucoin(ticker)) && !differentBlockchainsIgnore.Contains(ticker) && !differentTickersIgnore.Contains(ticker) && !notAvailableDeposit.Contains(ticker) && !ilLiquid.Contains(ticker))
                 .Select(ticker => new SymbolPairForGateIoAndKucoin
                 {
                     GateIoTicker = ticker,
@@ -70,10 +71,31 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         private string ReplaceGateIoTickerToKucoin(string gateIoTicker)
         {
-            return gateIoTicker.Replace("_ETH", "-ETH")
+            return gateIoTicker.Replace("_USDT", "-USDT")
+                .Replace("_TUSD", "-TUSD")
+                .Replace("_BUSD", "-BUSD")
+                .Replace("_USDC", "-USDC")
+                .Replace("_BNB", "-BNB")
                 .Replace("_BTC", "-BTC")
-                .Replace("_USDT", "-USDT")
-                .Replace("_USDC", "-USDC");
+                .Replace("_ETH", "-ETH")
+                .Replace("_DAI", "-DAI")
+                .Replace("_VAI", "-VAI")
+                .Replace("_XRP", "-XRP")
+                .Replace("_TRX", "-TRX")
+                .Replace("_DOGE", "-DOGE")
+                .Replace("_DOT", "-DOT")
+                .Replace("_TRY", "-TRY")
+                .Replace("_EUR", "-EUR")
+                .Replace("_BRL", "-BRL")
+                .Replace("_ARS", "-ARS")
+                .Replace("_BIDR", "-BIDR")
+                .Replace("_GBP", "-GBP")
+                .Replace("_IDRT", "-IDRT")
+                .Replace("_NGN", "-NGN")
+                .Replace("_PLN", "-PLN")
+                .Replace("_RUB", "-RUB")
+                .Replace("-UAH", "-UAH")
+                .Replace("_ZAR", "-ZAR");
         }
 
         private double CalculatePriceDifferencePercent(decimal priceGateIo, decimal priceKucoin)

@@ -1,4 +1,5 @@
-﻿using WatchListsCryptoMarkets.Services.PriceApiService;
+﻿using CryptoExchange.Net.CommonObjects;
+using WatchListsCryptoMarkets.Services.PriceApiService;
 using WatchListsCryptoMarkets.Services.TickerApiService;
 
 namespace WatchListsCryptoMarkets.ComparerPrice
@@ -23,13 +24,13 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         public async Task ComparerPrice()
         {
-            string[] tickersDiscribe = new string[] { };
+            string[] differentСurrency = new string[] { "ORTUSDT", "AXLUSDT", "REALUSDT", "TIMEUSDT", "FAMEUSDT" };
+            string[] bigRent = new string[] { "SAITAMAUSDT", "KOKUSDT", "AGLAUSDT" };
 
             var tickersByBit = await _byBitTickerApiService.GetTickersAsync();
             var tickersGateIo = await _gateIoTickerApiService.GetTickersAsync();
-
             var symbolPairs = tickersByBit
-                .Where(ticker => tickersGateIo.Contains(ReplaceByBitTickerToGateIo(ticker)))
+                .Where(ticker => tickersGateIo.Contains(ReplaceByBitTickerToGateIo(ticker)) && !differentСurrency.Contains(ticker) && !bigRent.Contains(ticker))
                 .Select(ticker => new SymbolPairForByBitAndGateIo
                 {
                     ByBitTicker = ticker,
@@ -61,8 +62,6 @@ namespace WatchListsCryptoMarkets.ComparerPrice
                     var priceByBit = await _byBitPriceApiService.GetPriceAsync(symbolPair.ByBitTicker);
                     var priceGateIo = await _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);
 
-                    //string additionalText = GetAdditionalText(symbolPair.GateIoTicker, tickersDiscribe);
-
                     Console.WriteLine($"{symbolPair.ByBitTicker}, Difference: {symbolPair.PercentDifference}, ByBit: {priceByBit}, GateIo: {priceGateIo}");
                 }
             }
@@ -70,12 +69,31 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         private string ReplaceByBitTickerToGateIo(string ByBitTicker)
         {
-            return ByBitTicker.Replace("ETH", "_ETH")
-                //.Replace("DAI", "_DAI")
+            return ByBitTicker.Replace("USDT", "_USDT")
+                .Replace("TUSD", "_TUSD")
+                .Replace("BUSD", "_BUSD")
+                .Replace("USDC", "_USDC")
+                .Replace("BNB", "_BNB")
                 .Replace("BTC", "_BTC")
-                //.Replace("BIT", "_BIT");
-                .Replace("USDT", "_USDT")
-                .Replace("USDC", "_USDC");
+                .Replace("ETH", "_ETH")
+                .Replace("DAI", "_DAI")
+                .Replace("VAI", "_VAI")
+                .Replace("XRP", "_XRP")
+                .Replace("TRX", "_TRX")
+                .Replace("DOGE", "_DOGE")
+                .Replace("DOT", "_DOT")
+                .Replace("TRY", "_TRY")
+                .Replace("EUR", "_EUR")
+                .Replace("BRL", "_BRL")
+                .Replace("ARS", "_ARS")
+                .Replace("BIDR", "_BIDR")
+                .Replace("GBP", "_GBP")
+                .Replace("IDRT", "_IDRT")
+                .Replace("NGN", "_NGN")
+                .Replace("PLN", "_PLN")
+                .Replace("RUB", "_RUB")
+                .Replace("UAH", "_UAH")
+                .Replace("ZAR", "_ZAR");
         }
 
         private double CalculatePriceDifferencePercent(decimal priceByBit, decimal priceGateIo)

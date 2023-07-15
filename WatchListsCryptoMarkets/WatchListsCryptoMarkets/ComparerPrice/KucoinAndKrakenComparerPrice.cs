@@ -54,7 +54,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                if (symbolPair.PercentDifference >= 1)
+                if (symbolPair.PercentDifference >= 4)
                 {                    
                     var priceKucoin = await _kucoinPriceApiService.GetPriceAsync(symbolPair.KucoinTicker);
                     var priceKraken = await _krakenPriceApiService.GetPriceAsync(symbolPair.KrakenTicker);
@@ -66,10 +66,31 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         private string ReplaceKucoinTickerToKraken(string KucoinTicker)
         {
-            return KucoinTicker.Replace("-ETH", "/ETH")
+            return KucoinTicker.Replace("-USDT", "/USDT")
+                .Replace("-TUSD", "/TUSD")
+                .Replace("-BUSD", "/BUSD")
+                .Replace("-USDC", "/USDC")
+                .Replace("-BNB", "/BNB")
                 .Replace("-BTC", "/BTC")
-                .Replace("-USDT", "/USDT")
-                .Replace("-USDC", "/USDC");
+                .Replace("-ETH", "/ETH")
+                .Replace("-DAI", "/DAI")
+                .Replace("-VAI", "/VAI")
+                .Replace("-XRP", "/XRP")
+                .Replace("-TRX", "/TRX")
+                .Replace("-DOGE", "/DOGE")
+                .Replace("-DOT", "/DOT")
+                .Replace("-TRY", "/TRY")
+                .Replace("-EUR", "/EUR")
+                .Replace("-BRL", "/BRL")
+                .Replace("-ARS", "/ARS")
+                .Replace("-BIDR", "/BIDR")
+                .Replace("-GBP", "/GBP")
+                .Replace("-IDRT", "/IDRT")
+                .Replace("-NGN", "/NGN")
+                .Replace("-PLN", "/PLN")
+                .Replace("-RUB", "/RUB")
+                .Replace("-UAH", "/UAH")
+                .Replace("-ZAR", "/ZAR");
         }
 
         private double CalculatePriceDifferencePercent(decimal priceKucoin, decimal priceKraken)

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WatchListsCryptoMarkets.Services.PriceApiService;
+﻿using WatchListsCryptoMarkets.Services.PriceApiService;
 using WatchListsCryptoMarkets.Services.TickerApiService;
 
 namespace WatchListsCryptoMarkets.ComparerPrice
@@ -28,11 +23,17 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         public async Task ComparerPrice()
         {
+            string[] differentСurrency = new string[] { "GPTUSDT"};
+            string[] unavailableOutputKucoin = new string[] { "ACAUSDT", "ACABTC", "PRIMALUSDT" };
+            string[] ilLiquid = new string[] { "TRIBEUSDT", "HEROUSDT", "PLYUSDT" };
+            string[] bigRent = new string[] { "SYNRUSDT", "KOKUSDT" };
+            string[] differentBlockchains = new string[] { "RUNEUSDT" };
+
             var tickersByBit = await _byBitTickerApiService.GetTickersAsync();
             var tickersKucoin = await _kucoinTickerApiService.GetTickersAsync();
 
             var symbolPairs = tickersByBit
-                .Where(ticker => tickersKucoin.Contains(ReplaceByBitTickerToKucoin(ticker)))
+                .Where(ticker => tickersKucoin.Contains(ReplaceByBitTickerToKucoin(ticker)) && !differentСurrency.Contains(ticker) && !unavailableOutputKucoin.Contains(ticker) && !ilLiquid.Contains(ticker) && !bigRent.Contains(ticker) && !differentBlockchains.Contains(ticker))
                 .Select(ticker => new SymbolPairForByBitAndKucoin
                 {
                     ByBitTicker = ticker,
@@ -64,8 +65,6 @@ namespace WatchListsCryptoMarkets.ComparerPrice
                     var priceByBit = await _byBitPriceApiService.GetPriceAsync(symbolPair.ByBitTicker);
                     var priceKucoin = await _kucoinPriceApiService.GetPriceAsync(symbolPair.KucoinTicker);
 
-                    //string additionalText = GetAdditionalText(symbolPair.GateIoTicker, tickersDiscribe);
-
                     Console.WriteLine($"{symbolPair.ByBitTicker}, Difference: {symbolPair.PercentDifference}, ByBit: {priceByBit}, Kucoin: {priceKucoin}");
                 }
             }
@@ -73,12 +72,31 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         private string ReplaceByBitTickerToKucoin(string ByBitTicker)
         {
-            return ByBitTicker.Replace("ETH", "-ETH")
-                //.Replace("DAI", "-DAI")
+            return ByBitTicker.Replace("USDT", "-USDT")
+                .Replace("TUSD", "-TUSD")
+                .Replace("BUSD", "-BUSD")
+                .Replace("USDC", "-USDC")
+                .Replace("BNB", "-BNB")
                 .Replace("BTC", "-BTC")
-                //.Replace("BIT", "-BIT")
-                .Replace("USDT", "-USDT")
-                .Replace("USDC", "-USDC");
+                .Replace("ETH", "-ETH")
+                .Replace("DAI", "-DAI")
+                .Replace("VAI", "-VAI")
+                .Replace("XRP", "-XRP")
+                .Replace("TRX", "-TRX")
+                .Replace("DOGE", "-DOGE")
+                .Replace("DOT", "-DOT")
+                .Replace("TRY", "-TRY")
+                .Replace("EUR", "-EUR")
+                .Replace("BRL", "-BRL")
+                .Replace("ARS", "-ARS")
+                .Replace("BIDR", "-BIDR")
+                .Replace("GBP", "-GBP")
+                .Replace("IDRT", "-IDRT")
+                .Replace("NGN", "-NGN")
+                .Replace("PLN", "-PLN")
+                .Replace("RUB", "-RUB")
+                .Replace("UAH", "-UAH")
+                .Replace("ZAR", "-ZAR");
         }
 
         private double CalculatePriceDifferencePercent(decimal priceByBit, decimal priceKucoin)
