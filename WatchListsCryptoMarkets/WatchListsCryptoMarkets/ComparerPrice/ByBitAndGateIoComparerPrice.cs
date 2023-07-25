@@ -24,13 +24,14 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         public async Task ComparerPrice()
         {
+            string[] differentBlockchainsIgnore = new string[] { "SLGUSDT" };
             string[] differentСurrency = new string[] { "ORTUSDT", "AXLUSDT", "REALUSDT", "TIMEUSDT", "FAMEUSDT" };
             string[] bigRent = new string[] { "SAITAMAUSDT", "KOKUSDT", "AGLAUSDT" };
 
             var tickersByBit = await _byBitTickerApiService.GetTickersAsync();
             var tickersGateIo = await _gateIoTickerApiService.GetTickersAsync();
             var symbolPairs = tickersByBit
-                .Where(ticker => tickersGateIo.Contains(ReplaceByBitTickerToGateIo(ticker)) && !differentСurrency.Contains(ticker) && !bigRent.Contains(ticker))
+                .Where(ticker => tickersGateIo.Contains(ReplaceByBitTickerToGateIo(ticker)) && !differentСurrency.Contains(ticker) && !bigRent.Contains(ticker) && !differentBlockchainsIgnore.Contains(ticker))
                 .Select(ticker => new SymbolPairForByBitAndGateIo
                 {
                     ByBitTicker = ticker,
@@ -57,7 +58,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                if (symbolPair.PercentDifference >= 4)
+                if (symbolPair.PercentDifference >= 5)
                 {
                     var priceByBit = await _byBitPriceApiService.GetPriceAsync(symbolPair.ByBitTicker);
                     var priceGateIo = await _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);

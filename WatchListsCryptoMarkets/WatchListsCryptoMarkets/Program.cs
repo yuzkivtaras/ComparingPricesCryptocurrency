@@ -89,84 +89,95 @@ namespace WatchListsCryptoMarkets
             //    //Console.WriteLine(symbol);
             //}
 
+            var bitfinexTickerApiService = new BitfinexTickerApiService(new HttpClient());
+            var bitfinexPriceApiService = new BitfinexPriceApiService(new HttpClient());
+
+            var tickersBitfinex = await bitfinexTickerApiService.GetTickersAsync();
+            foreach (var ticker in tickersBitfinex)
+            {
+                var symbol = ticker.ToString();
+                var priceBitfinex = await bitfinexPriceApiService.GetPriceAsync(symbol);
+
+                Console.WriteLine($"Bitfinex - Symbol: {symbol}, Price: {priceBitfinex}");
+                //Console.WriteLine(symbol);
+            }
+
             //ComparePricesAsync
 
-            //BinanceAndByBit
-            Console.WriteLine("-----------Binance - ByBit-----------");
-            var comparerBinanceAndByBit = new BinanceAndByBitComparerPrice(binanceTickerApiService, binancePriceApiService, byBitTickerApiService, byBitPriceApiService);
-            await comparerBinanceAndByBit.ComparerPrice();
+            ////BinanceAndByBit
+            //Console.WriteLine("-----------Binance - ByBit-----------");
+            //var comparerBinanceAndByBit = new BinanceAndByBitComparerPrice(binanceTickerApiService, binancePriceApiService, byBitTickerApiService, byBitPriceApiService);
+            //await comparerBinanceAndByBit.ComparerPrice();
 
-            //BinanceAndGateIo
-            Console.WriteLine("-----------Binance - GateIo-----------");
-            var comparerBinanceAndGateIo = new BinanceAndGateIoComparerPrice(binanceTickerApiService, binancePriceApiService, gateIoTickerApiService, gateIoPriceApiService);
-            await comparerBinanceAndGateIo.ComparerPrice();
+            ////BinanceAndGateIo
+            //Console.WriteLine("-----------Binance - GateIo-----------");
+            //var comparerBinanceAndGateIo = new BinanceAndGateIoComparerPrice(binanceTickerApiService, binancePriceApiService, gateIoTickerApiService, gateIoPriceApiService);
+            //await comparerBinanceAndGateIo.ComparerPrice();
 
-            //BinanceAndKraken
-            Console.WriteLine("-----------Binance - Kraken-----------");
-            var comparerBinanceAndKraken = new BinanceAndKrakenComparerPrice(binanceTickerApiService, binancePriceApiService, krakenTickerApiService, krakenPriceApiService);
-            await comparerBinanceAndKraken.ComparerPrice();
+            ////BinanceAndKraken
+            //Console.WriteLine("-----------Binance - Kraken-----------");
+            //var comparerBinanceAndKraken = new BinanceAndKrakenComparerPrice(binanceTickerApiService, binancePriceApiService, krakenTickerApiService, krakenPriceApiService);
+            //await comparerBinanceAndKraken.ComparerPrice();
 
-            //BinanceAndKucoin
-            Console.WriteLine("-----------Binance - Kucoin-----------");
-            var comparerBinanceAndKucoin = new BinanceAndKucoinComparerPrice(binanceTickerApiService, binancePriceApiService, kucoinTickerApiService, kucoinPriceApiService);
-            await comparerBinanceAndKucoin.ComparerPrice();
+            ////BinanceAndKucoin
+            //Console.WriteLine("-----------Binance - Kucoin-----------");
+            //var comparerBinanceAndKucoin = new BinanceAndKucoinComparerPrice(binanceTickerApiService, binancePriceApiService, kucoinTickerApiService, kucoinPriceApiService);
+            //await comparerBinanceAndKucoin.ComparerPrice();
 
-            //BinanceAndOKX
-            Console.WriteLine("-----------Binance - OKX-----------");
-            var comparerBinanceAndOkx = new BinanceAndOkxComparerPrice(binanceTickerApiService, binancePriceApiService, okxTickerApiService, okxPriceApiService);
-            await comparerBinanceAndOkx.ComparerPrice();
+            ////BinanceAndOKX
+            //Console.WriteLine("-----------Binance - OKX-----------");
+            //var comparerBinanceAndOkx = new BinanceAndOkxComparerPrice(binanceTickerApiService, binancePriceApiService, okxTickerApiService, okxPriceApiService);
+            //await comparerBinanceAndOkx.ComparerPrice();
 
-            //ByBitAndGateIo
-            Console.WriteLine("-----------ByBit - GateIo-----------");
-            var comparerByBitAndGateIo = new ByBitAndGateIoComparerPrice(byBitTickerApiService, byBitPriceApiService, gateIoTickerApiService, gateIoPriceApiService);
-            await comparerByBitAndGateIo.ComparerPrice();
+            ////ByBitAndGateIo
+            //Console.WriteLine("-----------ByBit - GateIo-----------");
+            //var comparerByBitAndGateIo = new ByBitAndGateIoComparerPrice(byBitTickerApiService, byBitPriceApiService, gateIoTickerApiService, gateIoPriceApiService);
+            //await comparerByBitAndGateIo.ComparerPrice();
 
-            //ByBitAndKraken
-            Console.WriteLine("-----------ByBit - Kraken-----------");
-            var comparerByBitAndKraken = new ByBitAndKrakenComparerPrice(byBitTickerApiService, byBitPriceApiService, krakenTickerApiService, krakenPriceApiService);
-            await comparerByBitAndKraken.ComparerPrice();
+            ////ByBitAndKraken
+            //Console.WriteLine("-----------ByBit - Kraken-----------");
+            //var comparerByBitAndKraken = new ByBitAndKrakenComparerPrice(byBitTickerApiService, byBitPriceApiService, krakenTickerApiService, krakenPriceApiService);
+            //await comparerByBitAndKraken.ComparerPrice();
 
-            //ByBitAndKucoin
-            Console.WriteLine("-----------ByBit - Kucoin-----------");
-            var comparerByBitAndKucoin = new ByBitAndKucoinComparerPrice(byBitTickerApiService, byBitPriceApiService, kucoinTickerApiService, kucoinPriceApiService);
-            await comparerByBitAndKucoin.ComparerPrice();
+            ////ByBitAndKucoin
+            //Console.WriteLine("-----------ByBit - Kucoin-----------");
+            //var comparerByBitAndKucoin = new ByBitAndKucoinComparerPrice(byBitTickerApiService, byBitPriceApiService, kucoinTickerApiService, kucoinPriceApiService);
+            //await comparerByBitAndKucoin.ComparerPrice();
 
-            //ByBitAndOKX
-            Console.WriteLine("-----------ByBit - OKX-----------");
-            var comparerByBitandOkx = new ByBitAndOkxComparerPrice(byBitTickerApiService, byBitPriceApiService, okxTickerApiService, okxPriceApiService);
-            await comparerByBitandOkx.ComparerPrice();
+            ////ByBitAndOKX
+            //Console.WriteLine("-----------ByBit - OKX-----------");
+            //var comparerByBitandOkx = new ByBitAndOkxComparerPrice(byBitTickerApiService, byBitPriceApiService, okxTickerApiService, okxPriceApiService);
+            //await comparerByBitandOkx.ComparerPrice();
 
-            //GateIoAndKraken
-            Console.WriteLine("-----------GateIo - Kraken-----------");
-            var comparerGateIoAndKraken = new GateIoAndKrakenComaparerPrice(gateIoTickerApiService, gateIoPriceApiService, krakenTickerApiService, krakenPriceApiService);
-            await comparerGateIoAndKraken.ComparerPrice();
+            ////GateIoAndKraken
+            //Console.WriteLine("-----------GateIo - Kraken-----------");
+            //var comparerGateIoAndKraken = new GateIoAndKrakenComaparerPrice(gateIoTickerApiService, gateIoPriceApiService, krakenTickerApiService, krakenPriceApiService);
+            //await comparerGateIoAndKraken.ComparerPrice();
 
-            //GateIoAndKucoin
-            Console.WriteLine("-----------GateIo - Kucoin-----------");
-            var comparerGateIoAndKucoin = new GateIoAndKucoinComparerPrice(gateIoTickerApiService, gateIoPriceApiService, kucoinTickerApiService, kucoinPriceApiService);
-            await comparerGateIoAndKucoin.ComparerPrice();
+            ////GateIoAndKucoin
+            //Console.WriteLine("-----------GateIo - Kucoin-----------");
+            //var comparerGateIoAndKucoin = new GateIoAndKucoinComparerPrice(gateIoTickerApiService, gateIoPriceApiService, kucoinTickerApiService, kucoinPriceApiService);
+            //await comparerGateIoAndKucoin.ComparerPrice();
 
-            //GateIoAndOKX
-            Console.WriteLine("-----------GateIo - OKX-----------");
-            var comparerGateIoAndOkx = new GateIoAndOkxComparerPrice(gateIoTickerApiService, gateIoPriceApiService, okxTickerApiService, okxPriceApiService);
-            await comparerGateIoAndOkx.ComparerPrice();
+            ////GateIoAndOKX
+            //Console.WriteLine("-----------GateIo - OKX-----------");
+            //var comparerGateIoAndOkx = new GateIoAndOkxComparerPrice(gateIoTickerApiService, gateIoPriceApiService, okxTickerApiService, okxPriceApiService);
+            //await comparerGateIoAndOkx.ComparerPrice();
 
-            //KrakenAndOKX
-            Console.WriteLine("-----------Kraken - OKX-----------");
-            var comparerKrakenAndOkx = new KrakenAndOkxComparerPrice(krakenTickerApiService, krakenPriceApiService, okxTickerApiService, okxPriceApiService);
-            await comparerKrakenAndOkx.ComparerPrice();
+            ////KrakenAndOKX
+            //Console.WriteLine("-----------Kraken - OKX-----------");
+            //var comparerKrakenAndOkx = new KrakenAndOkxComparerPrice(krakenTickerApiService, krakenPriceApiService, okxTickerApiService, okxPriceApiService);
+            //await comparerKrakenAndOkx.ComparerPrice();
 
-            //KucoinAndKraken
-            Console.WriteLine("-----------Kucoin - Kraken-----------");
-            var comparerKucoinAndKraken = new KucoinAndKrakenComparerPrice(kucoinTickerApiService, kucoinPriceApiService, krakenTickerApiService, krakenPriceApiService);
-            await comparerKucoinAndKraken.ComparerPrice();
+            ////KucoinAndKraken
+            //Console.WriteLine("-----------Kucoin - Kraken-----------");
+            //var comparerKucoinAndKraken = new KucoinAndKrakenComparerPrice(kucoinTickerApiService, kucoinPriceApiService, krakenTickerApiService, krakenPriceApiService);
+            //await comparerKucoinAndKraken.ComparerPrice();
 
-            //KucoinAndOKX
-            Console.WriteLine("-----------Kucoin - OKX-----------");
-            var comparerKucoinAndOkx = new KucoinAndOkxComparerPrice(kucoinTickerApiService, kucoinPriceApiService, okxTickerApiService, okxPriceApiService);
-            await comparerKucoinAndOkx.ComparerPrice();
-
-
+            ////KucoinAndOKX
+            //Console.WriteLine("-----------Kucoin - OKX-----------");
+            //var comparerKucoinAndOkx = new KucoinAndOkxComparerPrice(kucoinTickerApiService, kucoinPriceApiService, okxTickerApiService, okxPriceApiService);
+            //await comparerKucoinAndOkx.ComparerPrice();
         }
     }
 }

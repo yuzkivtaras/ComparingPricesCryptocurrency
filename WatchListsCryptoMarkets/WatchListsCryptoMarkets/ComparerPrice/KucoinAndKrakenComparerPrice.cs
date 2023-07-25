@@ -54,7 +54,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                if (symbolPair.PercentDifference >= 4)
+                if (symbolPair.PercentDifference >= 5)
                 {                    
                     var priceKucoin = await _kucoinPriceApiService.GetPriceAsync(symbolPair.KucoinTicker);
                     var priceKraken = await _krakenPriceApiService.GetPriceAsync(symbolPair.KrakenTicker);

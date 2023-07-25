@@ -23,9 +23,9 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
         public async Task ComparerPrice()
         {
-            string[] differentBlockchainsIgnore = new string[] { "DYP_ETH", "DYP_USDT", "MAN_USDT", "ANC_USDT", "MIR_USDT", "MOOV_USDT" };
-            string[] differentTickersIgnore = new string[] { "SWP_USDT", "STC_USDT", "TRAC_USDT", "BIFI_USDT", "MM_USDT", "TIME_USDT", "QI_USDT" };
-            string[] notAvailableDeposit = new string[] { "CARE_USDT", "PRIMAL_USDT", "CWS_USDT", "OOE_USDT", "METIS_USDT", "MLN_USDT", "IOTA_BTC", "IOTA_USDT" };
+            string[] differentBlockchainsIgnore = new string[] { "DYP_ETH", "DYP_USDT", "MAN_USDT", "ANC_USDT", "MIR_USDT", "MOOV_USDT", };
+            string[] differentTickersIgnore = new string[] { "SWP_USDT", "STC_USDT", "TRAC_USDT", "BIFI_USDT", "MM_USDT", "TIME_USDT", "QI_USDT", "LYXE_USDT", "AURA_USDT", "LYXE_ETH" };
+            string[] notAvailableDeposit = new string[] { "CARE_USDT", "PRIMAL_USDT", "CWS_USDT", "OOE_USDT", "METIS_USDT", "MLN_USDT", "IOTA_BTC", "IOTA_USDT", "QUICK_USDT", "EPK_USDT" };
             string[] ilLiquid = new string[] { "TARA_ETH", "STORJ_BTC" , "NWC_BTC", "TRIBE_USDT", "DOCK_ETH", "CFX_ETH" };
 
             var tickersGateIo = await _gateIoTickerApiService.GetTickersAsync();
@@ -59,7 +59,7 @@ namespace WatchListsCryptoMarkets.ComparerPrice
 
             foreach (var symbolPair in symbolPairs)
             {
-                if (symbolPair.PercentDifference >= 4)
+                if (symbolPair.PercentDifference >= 5)
                 {
                     var priceGateIo = await _gateIoPriceApiService.GetPriceAsync(symbolPair.GateIoTicker);
                     var priceKucoin = await _kucoinPriceApiService.GetPriceAsync(symbolPair.KucoinTicker);                    
